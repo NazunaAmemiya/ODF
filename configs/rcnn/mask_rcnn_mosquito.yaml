@@ -1,0 +1,66 @@
+# 1. Kế thừa Runtime và Dataset
+_base_:
+  - "../_base_/mosquito_seg_dataset.yaml"  # Dùng chung tập dữ liệu có Mask
+  - "../_base_/default_runtime.yaml"
+
+# Mask R-CNN thường hội tụ nhanh hơn về số Epochs, nhưng chạy mỗi Epoch chậm hơn YOLO
+epochs: 36
+work_dir: "./work_dirs/mask_rcnn_resnet50_mosquito"
+
+# 2. Lắp ráp kiến trúc mô hình Two-Stage
+model:
+  type: "TwoStageDetector"                 # Khai báo đây là kiến trúc 2 giai đoạn
+  
+  # Module 1: Xương sống trích xuất đặc trưng
+  backbone:
+    type: "ResNet"
+    depth: 50                              # Sử dụng ResNet-50
+    pretrained: True
+    frozen_stages: 1                       # Đóng băng block đầu tiên để giữ các đặc trưng cạnh/góc cơ bản
+
+  # Module 2: Trộn đặc trưng
+  neck:
+    type: "FPN"                            # Feature Pyramid Network chuẩn của R-CNN
+    in_channels: [256, 512, 1024, 2048]    # Đầu ra từ 4 block của ResNet
+    out_channels: 256
+    num_outs: 5                            # Xuất ra 5 mức độ phân giải khác nhau
+
+  # Module 3: Mạng đề xuất vùng (Giai đoạn 1)
+  rpn_head:
+    type: "RPNHead"
+    in_channels: 256
+    feat_channels: 256
+    anchor_generator:
+      type: "AnchorGenerator"              # Thuật toán rải Anchor Boxes
+      scales: [8]
+      ratios: [0.5, 1.0, 2.0]              # Tỉ lệ khung hình (dọc, vuông, ngang)
+      strides: [4, 8, 16, 32, 64]
+    loss:
+      type: "CrossEntropyLoss"             # Loss để phân biệt Vùng có Object / Vùng nền (Background)
+
+  # Module 4: Bộ xử lý vùng và Dự đoán cuối cùng (Giai đoạn 2)
+  roi_head:
+    type: "StandardRoIHead"
+    
+    # Nhánh 4.1: Cắt vùng và tính Box
+    bbox_roi_extractor:
+      type: "SingleRoIExtractor"
+      roi_layer: { type: "RoIAlign", output_size: 7, sampling_ratio: 0 } # Kỹ thuật RoI Align nổi tiếng
+      out_channels: 256
+      featmap_strides: [4, 8, 16, 32]
+    bbox_head:
+      type: "Shared2FCBBoxHead"            # Dùng 2 lớp Fully Connected để ra kết quả
+      num_classes: 1                       # Class: muỗi
+      loss_cls: { type: "CrossEntropyLoss" }
+      loss_bbox: { type: "L1Loss" }        # Mask R-CNN mặc định thường dùng L1 Loss cho tọa độ
+      
+    # Nhánh 4.2: Cắt vùng (độ phân giải cao hơn) và tính Mask
+    mask_roi_extractor:
+      type: "SingleRoIExtractor"
+      roi_layer: { type: "RoIAlign", output_size: 14, sampling_ratio: 0 } # Size 14x14 để tính mask mịn hơn
+      out_channels: 256
+      featmap_strides: [4, 8, 16, 32]
+    mask_head:
+      type: "FCNMaskHead"                  # Mạng tích chập hoàn toàn (FCN) để tô màu
+      num_classes: 1
+      loss_mask: { type: "CrossEntropyLoss", use_mask: True }

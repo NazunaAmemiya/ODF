@@ -1,0 +1,35 @@
+# 1. Kế thừa Runtime chung và Dataset của Segmentation
+_base_:
+  - "../_base_/mosquito_seg_dataset.yaml"
+  - "../_base_/default_runtime.yaml"
+
+epochs: 150
+work_dir: "./work_dirs/yolov8n_mosquito_seg"
+
+# 2. Lắp ráp kiến trúc mô hình Segmentation
+model:
+  type: "SingleStageSegmentor"   # Phân loại đây là mô hình sinh Mask
+  
+  backbone:
+    type: "YOLOv8Backbone"
+    version: "n"                 
+    pretrained: True             
+    
+  neck:
+    type: "YOLOv8PAFPN"          
+    in_channels: [64, 128, 256]
+    
+  head:
+    type: "YOLOv8SegHead"        # Đổi thành Head dành riêng cho Segmentation
+    num_classes: 1
+    num_masks: 32                # Số lượng mask nguyên mẫu (Prototypical masks - đặc trưng của YOLOv8-seg)
+    
+  loss:
+    type: "YOLOv8SegLoss"        # Hàm Loss tổng hợp
+    # Các loss kế thừa từ bài toán Detection
+    box_weight: 7.5
+    cls_weight: 0.5
+    dfl_weight: 1.5
+    # CÁC LOSS MỚI CHUYÊN DÀNH CHO SEGMENTATION:
+    mask_weight: 1.0             # Trọng số phạt cho mặt nạ (thường dùng BCE Loss)
+    overlap_weight: 0.8          # Phạt nếu mask sinh ra tràn ra ngoài bounding box

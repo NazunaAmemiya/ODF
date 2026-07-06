@@ -1,0 +1,28 @@
+# Cấu hình Dataloader
+dataloader:
+  batch_size: 16            # Số lượng ảnh đẩy vào GPU cùng 1 lúc (Giảm xuống 8 nếu GPU yếu)
+  num_workers: 4            # Số lượng luồng CPU dùng để đọc ảnh
+  shuffle_train: True       # Trộn ảnh ngẫu nhiên khi train
+
+# Định nghĩa Dataset
+dataset:
+  type: "MosquitoDetDataset"
+  train_path: "data/mosquito_det_coco/train/images"
+  train_ann: "data/mosquito_det_coco/train/annotations.json"
+  val_path: "data/mosquito_det_coco/val/images"
+  val_ann: "data/mosquito_det_coco/val/annotations.json"
+  num_classes: 1
+  class_names: ['mosquito']
+
+# Data Pipeline & Augmentation (Rất quan trọng cho YOLO)
+pipeline:
+  input_size: [640, 640]    # Resize mọi ảnh về kích thước chuẩn của YOLO
+  transforms:
+    - type: "Mosaic"        # Ghép 4 ảnh thành 1 để muỗi trông nhỏ hơn, học tốt hơn
+      prob: 1.0
+    - type: "RandomHorizontalFlip"
+      prob: 0.5
+    - type: "ColorJitter"   # Đổi độ sáng tối để chống lại môi trường ánh sáng phức tạp
+      brightness: 0.2
+      contrast: 0.2
+    - type: "Normalize"     # Chuẩn hóa pixel về [0, 1]

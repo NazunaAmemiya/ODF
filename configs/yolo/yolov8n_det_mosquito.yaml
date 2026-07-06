@@ -1,0 +1,31 @@
+# 1. Kế thừa các cấu hình cơ sở (tránh viết lại code)
+_base_:
+  - "../_base_/mosquito_det_dataset.yaml"
+  - "../_base_/default_runtime.yaml"
+
+# 2. Ghi đè cấu hình runtime (tùy chỉnh riêng cho bài toán này nếu cần)
+epochs: 150
+work_dir: "./work_dirs/yolov8n_mosquito_det"
+
+# 3. Lắp ráp kiến trúc mô hình (Builder sẽ đọc phần này)
+model:
+  type: "SingleStageDetector"
+  
+  backbone:
+    type: "YOLOv8Backbone"
+    version: "n"            # Quy định là bản Nano (siêu nhẹ)
+    pretrained: True        # Sử dụng trọng số đã pre-train trên COCO để hội tụ nhanh
+    
+  neck:
+    type: "YOLOv8PAFPN"     # Cấu trúc tháp đặc trưng của YOLOv8
+    in_channels: [64, 128, 256]
+    
+  head:
+    type: "YOLOv8DetHead"
+    num_classes: 1          # Chỉ phát hiện 1 class (muỗi)
+    
+  loss:
+    type: "YOLOv8Loss"      # Hàm Loss chuyên dụng
+    box_weight: 7.5         # Trọng số phạt lệch Bounding Box
+    cls_weight: 0.5         # Trọng số phạt phân loại sai
+    dfl_weight: 1.5         # Trọng số phạt phân phối cực trị (Distribution Focal Loss)

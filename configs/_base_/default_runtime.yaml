@@ -1,0 +1,25 @@
+# Thông số huấn luyện cơ bản
+epochs: 100
+device: "cuda:0"            # Chạy trên GPU số 0 (hoặc đổi thành "cpu" nếu không có GPU)
+work_dir: "./work_dirs"     # Nơi lưu logs và file trọng số (.pt)
+
+# Cấu hình thuật toán tối ưu (Optimizer)
+optimizer:
+  type: "AdamW"
+  lr: 0.001                 # Learning rate khởi tạo
+  weight_decay: 0.0005      # Phạt trọng số để chống Overfitting
+
+# Cấu hình lịch trình giảm Learning Rate (Scheduler)
+scheduler:
+  type: "CosineAnnealingLR"
+  T_max: 100
+  eta_min: 0.00001
+
+# Cấu hình ghi log và lưu model
+logging:
+  interval: 10              # Cứ 10 batch thì in log ra màn hình 1 lần
+  use_tensorboard: True     # Kích hoạt vẽ biểu đồ trên TensorBoard
+
+checkpoint:
+  save_best: True           # Chỉ lưu model có mAP cao nhất (không lưu toàn bộ gây nặng ổ cứng)
+  monitor_metric: "mAP50-95"

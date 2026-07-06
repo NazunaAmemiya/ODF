@@ -1,0 +1,27 @@
+dataloader:
+  batch_size: 16
+  num_workers: 4
+  shuffle_train: True
+
+dataset:
+  type: "MosquitoSegDataset"
+  # Trỏ tới thư mục chứa dữ liệu Segmentation (COCO Polygon format hoặc YOLO-Seg format)
+  train_path: "data/mosquito_seg_polygon/train/images"
+  train_ann: "data/mosquito_seg_polygon/train/annotations.json"
+  val_path: "data/mosquito_seg_polygon/val/images"
+  val_ann: "data/mosquito_seg_polygon/val/annotations.json"
+  num_classes: 1
+  class_names: ['mosquito']
+
+pipeline:
+  input_size: [640, 640]
+  transforms:
+    # LƯU Ý: Các hàm transform này phải hỗ trợ biến đổi cả Mask, không chỉ BBox
+    - type: "MosaicSeg"      
+      prob: 1.0
+    - type: "RandomHorizontalFlip"
+      prob: 0.5
+    - type: "ColorJitter"
+      brightness: 0.2
+      contrast: 0.2
+    - type: "Normalize"
