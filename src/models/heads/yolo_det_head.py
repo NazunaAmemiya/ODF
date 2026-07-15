@@ -18,7 +18,7 @@ class YOLOv8DetHead(nn.Module):
 
     def __init__(
         self,
-        num_classes: int = 1,
+        num_classes: int = 3,
         in_channels: Sequence[int] = (128, 128, 128),
         feat_channels: int = 128,
         **kwargs: Any,

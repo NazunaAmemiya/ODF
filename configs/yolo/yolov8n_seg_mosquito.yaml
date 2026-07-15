@@ -21,7 +21,7 @@ model:
     
   head:
     type: "YOLOv8SegHead"        # Đổi thành Head dành riêng cho Segmentation
-    num_classes: 1
+    num_classes: 3
     num_masks: 32                # Số lượng mask nguyên mẫu (Prototypical masks - đặc trưng của YOLOv8-seg)
     
   loss:

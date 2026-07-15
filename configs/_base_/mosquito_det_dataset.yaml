@@ -1,7 +1,7 @@
 # Cấu hình Dataloader
 dataloader:
   batch_size: 16            # Số lượng ảnh đẩy vào GPU cùng 1 lúc (Giảm xuống 8 nếu GPU yếu)
-  num_workers: 4            # Số lượng luồng CPU dùng để đọc ảnh
+  num_workers: 0            # Số lượng luồng CPU dùng để đọc ảnh
   shuffle_train: True       # Trộn ảnh ngẫu nhiên khi train
 
 # Định nghĩa Dataset
@@ -11,8 +11,8 @@ dataset:
   train_ann: "data/mosquito_det_coco/train/annotations.json"
   val_path: "data/mosquito_det_coco/val/images"
   val_ann: "data/mosquito_det_coco/val/annotations.json"
-  num_classes: 1
-  class_names: ['mosquito']
+  num_classes: 3
+  class_names: ['aedes', 'anopheles', 'culex']
 
 # Data Pipeline & Augmentation (Rất quan trọng cho YOLO)
 pipeline:

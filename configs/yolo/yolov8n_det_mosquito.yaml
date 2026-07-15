@@ -22,7 +22,7 @@ model:
     
   head:
     type: "YOLOv8DetHead"
-    num_classes: 1          # Chỉ phát hiện 1 class (muỗi)
+    num_classes: 3          # Chỉ phát hiện 1 class (muỗi)
     
   loss:
     type: "YOLOv8Loss"      # Hàm Loss chuyên dụng

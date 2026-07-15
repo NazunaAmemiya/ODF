@@ -10,8 +10,8 @@ dataset:
   train_ann: "data/mosquito_seg_polygon/train/annotations.json"
   val_path: "data/mosquito_seg_polygon/val/images"
   val_ann: "data/mosquito_seg_polygon/val/annotations.json"
-  num_classes: 1
-  class_names: ['mosquito']
+  num_classes: 3
+  class_names: ['aedes', 'anopheles', 'culex']
 
 pipeline:
   input_size: [640, 640]

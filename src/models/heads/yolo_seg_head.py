@@ -19,7 +19,7 @@ class YOLOv8SegHead(YOLOv8DetHead):
 
     def __init__(
         self,
-        num_classes: int = 1,
+        num_classes: int = 3,
         num_masks: int = 32,
         in_channels: Sequence[int] = (128, 128, 128),
         feat_channels: int = 128,
