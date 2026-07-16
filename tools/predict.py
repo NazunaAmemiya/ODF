@@ -1,128 +1,136 @@
 import argparse
-import os
-import sys
+import cv2
 import yaml
 import torch
-import cv2
 import numpy as np
-from pathlib import Path
-from tqdm import tqdm
 
-# BẮT BUỘC: Đẩy thư mục gốc vào sys.path
-ROOT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.insert(0, ROOT_DIR)
-
-from src.utils.logger import setup_logger
+# Import các module chuẩn xác từ framework ODF của bạn
 from src.models.builder import build_model
-# Nhập module vẽ Bounding Box hoặc Mask (theo sơ đồ thư mục của bạn)
-# from src.visualization.det_visualizer import DetVisualizer
-# from src.visualization.seg_visualizer import SegVisualizer
+from src.models.decoders.seg_decoder import SegDecoder
+from src.visualization.seg_visualizer import SegVisualizer
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='🦟 Suy luận mô hình Mosquito-CV (Inference)')
+    parser = argparse.ArgumentParser(description='🦟 Dự đoán và Phân vùng muỗi (Segmentation Inference)')
     parser.add_argument('--config', type=str, required=True, 
-                        help='Đường dẫn tới file cấu hình YAML')
+                        help='Đường dẫn file YAML (vd: configs/yolo/yolov8n_seg_mosquito.yaml)')
     parser.add_argument('--checkpoint', type=str, required=True, 
-                        help='Đường dẫn tới file trọng số (.pth)')
+                        help='Đường dẫn tới file trọng số best_checkpoint.pth')
     parser.add_argument('--source', type=str, required=True, 
-                        help='Đường dẫn tới ảnh, thư mục ảnh, hoặc video cần dự đoán')
-    parser.add_argument('--save-dir', type=str, default='./output/predictions', 
-                        help='Thư mục lưu kết quả ảnh đã vẽ')
-    parser.add_argument('--conf-thres', type=float, default=0.5, 
-                        help='Ngưỡng tin cậy (Confidence Threshold)')
-    parser.add_argument('--iou-thres', type=float, default=0.45, 
-                        help='Ngưỡng NMS IoU để lọc box trùng')
+                        help='Đường dẫn tới bức ảnh cần test')
+    parser.add_argument('--out', type=str, default='result.jpg', 
+                        help='Tên file ảnh xuất ra sau khi vẽ')
+    parser.add_argument('--conf-thresh', type=float, default=0.5, 
+                        help='Ngưỡng tin cậy tối thiểu (mặc định: 0.5)')
     return parser.parse_args()
 
 def load_config(config_path):
+    """Đọc file cấu hình YAML"""
     with open(config_path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
-def preprocess_image(image_bgr, input_size):
-    """Tiền xử lý ảnh gốc thành Tensor chuẩn để nạp vào mô hình"""
-    # 1. Resize về kích thước mạng yêu cầu (VD: 640x640)
-    img_resized = cv2.resize(image_bgr, tuple(input_size))
-    # 2. Chuyển BGR (OpenCV) sang RGB
+def preprocess_image(image_path, input_size=(640, 640), device='cpu'):
+    """Đọc, resize và chuẩn hóa ảnh thành Tensor"""
+    img_bgr = cv2.imread(image_path)
+    if img_bgr is None:
+        raise ValueError(f"❌ Không thể đọc ảnh từ {image_path}. Vui lòng kiểm tra lại đường dẫn!")
+    
+    # Giữ lại ảnh đã resize để xíu nữa đưa vào Visualizer vẽ cho khớp tọa độ
+    img_resized = cv2.resize(img_bgr, input_size)
+    
+    # Chuyển BGR (OpenCV) sang RGB và Normalize (/255.0)
     img_rgb = cv2.cvtColor(img_resized, cv2.COLOR_BGR2RGB)
-    # 3. Chuyển thành Numpy array, scale [0, 1] và đổi trục (H, W, C) -> (C, H, W)
-    img_tensor = img_rgb.astype(np.float32) / 255.0
-    img_tensor = np.transpose(img_tensor, (2, 0, 1))
-    # 4. Thêm chiều Batch (C, H, W) -> (1, C, H, W)
-    img_tensor = np.expand_dims(img_tensor, axis=0)
-    return torch.from_numpy(img_tensor)
+    img_tensor = torch.from_numpy(img_rgb).permute(2, 0, 1).float() / 255.0
+    
+    # Thêm batch dimension -> (1, C, H, W)
+    img_tensor = img_tensor.unsqueeze(0).to(device)
+    
+    return img_tensor, img_resized
 
 def main():
     args = parse_args()
     cfg = load_config(args.config)
-    
-    os.makedirs(args.save_dir, exist_ok=True)
-    logger = setup_logger(name="mosquito_cv_pred", save_dir=args.save_dir)
-    logger.info("Khởi động quy trình Suy luận (Inference).")
-    
-    # 1. Khởi tạo Thiết bị & Mô hình
-    device = torch.device(cfg.get('device', 'cuda:0' if torch.cuda.is_available() else 'cpu'))
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
+    print(f"🚀 Đang khởi động hệ thống suy luận trên: {device}")
+
+    # ==========================================
+    # 1. KHỞI TẠO MÔ HÌNH VÀ NẠP TRỌNG SỐ
+    # ==========================================
     model = build_model(cfg['model'])
-    
-    logger.info(f"Đang nạp trọng số từ: {args.checkpoint}")
     checkpoint = torch.load(args.checkpoint, map_location=device)
-    state_dict = checkpoint['state_dict'] if 'state_dict' in checkpoint else checkpoint
+    
+    # Xử lý trường hợp lưu toàn bộ Checkpoint (có optimizer) hay chỉ lưu State Dict
+    state_dict = checkpoint.get('state_dict', checkpoint)
     model.load_state_dict(state_dict, strict=True)
     
     model.to(device)
-    model.eval() # Bắt buộc phải có!
-    
-    # Kích thước đầu vào chuẩn của mô hình (lấy từ config pipeline)
+    model.eval() # Bật chế độ suy luận (Tắt Dropout/BatchNorm updates)
+
+    # ==========================================
+    # 2. CHUẨN BỊ DỮ LIỆU
+    # ==========================================
+    # Lấy thông số từ config, nếu không có thì mặc định
+    class_names = cfg.get('dataset', {}).get('class_names', ['aedes', 'culex', 'anopheles'])
     input_size = cfg.get('pipeline', {}).get('input_size', [640, 640])
     
-    # Khởi tạo công cụ vẽ (Giả lập khởi tạo class Visualizer của bạn)
-    # visualizer = DetVisualizer(class_names=cfg['dataset']['class_names'])
+    # Đảm bảo input_size là tuple (W, H)
+    if isinstance(input_size, list):
+        input_size = tuple(input_size)
+
+    img_tensor, img_draw = preprocess_image(args.source, input_size, device)
+
+    # ==========================================
+    # 3. TIẾN HÀNH SUY LUẬN (INFERENCE)
+    # ==========================================
+    print("🧠 Trí tuệ nhân tạo đang phân tích ảnh...")
+    with torch.no_grad():
+        raw_outputs = model(img_tensor)
+        
+    # ==========================================
+    # 4. GIẢI MÃ KẾT QUẢ (DECODE)
+    # ==========================================
+    # Khởi tạo SegDecoder với mask_threshold (mặc định 0.5)
+    decoder = SegDecoder(mask_threshold=0.5)
     
-    # 2. Xử lý Nguồn dữ liệu (Source)
-    source_path = Path(args.source)
-    if source_path.is_file():
-        image_paths = [source_path]
-    elif source_path.is_dir():
-        image_paths = list(source_path.glob('*.*'))
-        image_paths = [p for p in image_paths if p.suffix.lower() in ['.jpg', '.jpeg', '.png']]
-    else:
-        logger.error(f"Không tìm thấy nguồn dữ liệu tại: {args.source}")
+    # Chạy hàm decode đúng như cấu trúc class bạn đã viết
+    detections = decoder.decode(
+        outputs=raw_outputs, 
+        image_size=input_size, 
+        conf_thres=args.conf_thresh
+    )
+    
+    # Dữ liệu trả về là 1 List, ta lấy phần tử đầu tiên (vì chỉ truyền vào 1 ảnh)
+    predictions = detections[0]
+    
+    boxes = predictions.get('boxes', [])
+    scores = predictions.get('scores', [])
+    class_ids = predictions.get('classes', [])
+    masks = predictions.get('masks', [])
+
+    if len(boxes) == 0:
+        print("🤷‍♂️ Không tìm thấy đối tượng nào thỏa mãn độ tin cậy.")
         return
 
-    logger.info(f"Tìm thấy {len(image_paths)} ảnh để dự đoán.")
+    print(f"🎯 Phát hiện {len(boxes)} vật thể!")
 
-    # 3. VÒNG LẶP SUY LUẬN
-    with torch.no_grad():
-        for img_path in tqdm(image_paths, desc="Predicting"):
-            # Đọc ảnh gốc bằng OpenCV
-            img_bgr = cv2.imread(str(img_path))
-            if img_bgr is None:
-                continue
-                
-            original_shape = img_bgr.shape[:2] # (H, W) để xíu nữa scale tọa độ ngược lại
-            
-            # Tiền xử lý
-            input_tensor = preprocess_image(img_bgr, input_size).to(device)
-            
-            # Forward qua mạng (Sẽ trả về Tensor chứa Boxes, Objectness, Classes)
-            raw_predictions = model(input_tensor)
-            
-            # Gọi Decoder để Hậu xử lý (NMS, Lọc ngưỡng)
-            # final_predictions = model.decoder(raw_predictions, conf_thres=args.conf_thres, iou_thres=args.iou_thres)
-            
-            # Chuyển đổi tọa độ box từ (640x640) về kích thước ảnh gốc (original_shape)
-            # ... (Logic tùy thuộc vào Decoder của bạn) ...
-            
-            # Vẽ Box/Mask lên ảnh (Sử dụng module Visualization của bạn)
-            # annotated_img = visualizer.draw(img_bgr.copy(), final_predictions)
-            
-            # Tạm thời lưu ảnh gốc để tránh lỗi do chưa code Visualizer
-            annotated_img = img_bgr 
-            
-            # Lưu ảnh kết quả
-            save_path = os.path.join(args.save_dir, img_path.name)
-            cv2.imwrite(save_path, annotated_img)
+    # ==========================================
+    # 5. VẼ KHUNG & MẶT NẠ (VISUALIZE)
+    # ==========================================
+    visualizer = SegVisualizer(class_names=class_names)
+    
+    # Đưa ảnh đã resize (để khớp tỉ lệ mask/box) vào visualizer
+    result_img = visualizer.draw(
+        image=img_draw, 
+        boxes=boxes, 
+        masks=masks, 
+        classes=class_ids, 
+        scores=scores
+    )
 
-    logger.info(f"🎉 Hoàn tất! Kết quả được lưu tại: {args.save_dir}")
+    # ==========================================
+    # 6. XUẤT KẾT QUẢ
+    # ==========================================
+    cv2.imwrite(args.out, result_img)
+    print(f"📸 Đã lưu bức ảnh phân vùng thành công tại: {args.out}")
 
 if __name__ == '__main__':
     main()

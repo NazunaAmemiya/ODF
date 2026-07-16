@@ -139,7 +139,7 @@ def main():
             
             total_train_loss += loss.item()
             
-            if batch_idx % cfg.get('logging', {}).get('interval', 10) == 0:
+            if batch_idx % cfg.get('logging', {}).get('interval', 1) == 0:
                 logger.info(f"Epoch [{epoch}/{epochs}] - Train Batch [{batch_idx}/{len(train_loader)}] - Loss: {loss.item():.4f}")
                 
         avg_train_loss = total_train_loss / len(train_loader)
@@ -147,24 +147,28 @@ def main():
         # ==========================================
         # PHA 2: KIỂM THỬ (VALIDATION)
         # ==========================================
-        model.eval() # Bật chế độ chấm thi (tắt các lớp Dropout/BatchNorm)
+        for module in model.modules():
+            if isinstance(module, torch.nn.modules.batchnorm._BatchNorm):
+                module.eval()
+
         total_val_loss = 0.0
         
-        # Tắt tính toán đạo hàm để chạy nhanh hơn và không tốn VRAM
+        # Tắt đạo hàm để chạy nhanh và tuyệt đối KHÔNG học thêm (Không học vẹt)
         with torch.no_grad():
             for batch_data in val_loader:
                 images = batch_data['img'].to(device)
                 targets = {k: v.to(device) for k, v in batch_data.items() if k != 'img'}
                 
-                # Chỉ tính Loss, không Backward
+                # Do chưa gọi model.eval() tổng, framework vẫn tưởng đang train
+                # Nên nó sẽ trả về cục Loss (Tensor) như bình thường!
                 val_loss = model(images, targets)
                 total_val_loss += val_loss.item()
                 
         # Tránh chia cho 0 nếu tập val trống
         avg_val_loss = total_val_loss / len(val_loader) if len(val_loader) > 0 else 0.0
         
-        # Cập nhật learning rate sau mỗi epoch
-        scheduler.step()
+        # Khôi phục lại trạng thái Train bình thường cho Epoch tiếp theo
+        model.train()
         
         # ==========================================
         # PHA 3: TỔNG KẾT VÀ LƯU TRỌNG SỐ
