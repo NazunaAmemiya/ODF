@@ -157,3 +157,321 @@
 2026-07-16 10:57:50 | INFO | mosquito_cv | Epoch [65/150] - Train Batch [0/7] - Loss: 0.0727
 2026-07-16 11:12:36 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 65 | Train Loss: 0.0762 | Val Loss: 0.8985
 2026-07-16 11:16:21 | INFO | mosquito_cv | Epoch [66/150] - Train Batch [0/7] - Loss: 0.0678
+2026-07-21 18:19:56 | INFO | mosquito_cv | Đọc cấu hình thành công từ: ./configs/yolo/yolov8n_seg_mosquito.yaml
+2026-07-21 18:19:56 | INFO | mosquito_cv | Đang chạy trên thiết bị: cuda:0
+2026-07-21 18:19:56 | INFO | mosquito_cv | Khởi tạo Data Pipeline...
+2026-07-21 18:19:56 | INFO | mosquito_cv | Lắp ráp Mô hình thông qua Registry...
+2026-07-21 18:20:01 | INFO | mosquito_cv | 🔥🔥🔥 BẮT ĐẦU HUẤN LUYỆN 150 EPOCHS (CÓ VALIDATION) 🔥🔥🔥
+2026-07-21 18:20:05 | INFO | mosquito_cv | Epoch [1/150] - Train Batch [0/7] - Loss: 2.7805
+2026-07-21 18:20:11 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 1 | Train Loss: 2.4184 | Val Loss: 2.5523
+2026-07-21 18:20:11 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 2.5523)
+2026-07-21 18:20:12 | INFO | mosquito_cv | Epoch [2/150] - Train Batch [0/7] - Loss: 1.8791
+2026-07-21 18:20:17 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 2 | Train Loss: 1.9028 | Val Loss: 2.3748
+2026-07-21 18:20:17 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 2.3748)
+2026-07-21 18:20:20 | INFO | mosquito_cv | Epoch [3/150] - Train Batch [0/7] - Loss: 1.7965
+2026-07-21 18:20:25 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 3 | Train Loss: 1.6602 | Val Loss: 2.3908
+2026-07-21 18:20:27 | INFO | mosquito_cv | Epoch [4/150] - Train Batch [0/7] - Loss: 1.3562
+2026-07-21 18:20:32 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 4 | Train Loss: 1.4210 | Val Loss: 2.3182
+2026-07-21 18:20:32 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 2.3182)
+2026-07-21 18:20:34 | INFO | mosquito_cv | Epoch [5/150] - Train Batch [0/7] - Loss: 1.3384
+2026-07-21 18:20:39 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 5 | Train Loss: 1.2345 | Val Loss: 2.1185
+2026-07-21 18:20:39 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 2.1185)
+2026-07-21 18:20:41 | INFO | mosquito_cv | Epoch [6/150] - Train Batch [0/7] - Loss: 1.0819
+2026-07-21 18:20:46 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 6 | Train Loss: 1.0400 | Val Loss: 1.7555
+2026-07-21 18:20:47 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 1.7555)
+2026-07-21 18:20:50 | INFO | mosquito_cv | Epoch [7/150] - Train Batch [0/7] - Loss: 1.0691
+2026-07-21 18:20:55 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 7 | Train Loss: 0.9315 | Val Loss: 1.4849
+2026-07-21 18:20:55 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 1.4849)
+2026-07-21 18:20:57 | INFO | mosquito_cv | Epoch [8/150] - Train Batch [0/7] - Loss: 0.8413
+2026-07-21 18:21:03 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 8 | Train Loss: 0.8252 | Val Loss: 1.2739
+2026-07-21 18:21:03 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 1.2739)
+2026-07-21 18:21:05 | INFO | mosquito_cv | Epoch [9/150] - Train Batch [0/7] - Loss: 0.7447
+2026-07-21 18:21:10 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 9 | Train Loss: 0.7439 | Val Loss: 1.2782
+2026-07-21 18:21:12 | INFO | mosquito_cv | Epoch [10/150] - Train Batch [0/7] - Loss: 0.7952
+2026-07-21 18:21:17 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 10 | Train Loss: 0.7532 | Val Loss: 1.4351
+2026-07-21 18:21:19 | INFO | mosquito_cv | Epoch [11/150] - Train Batch [0/7] - Loss: 0.6584
+2026-07-21 18:21:25 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 11 | Train Loss: 0.6761 | Val Loss: 1.0892
+2026-07-21 18:21:25 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 1.0892)
+2026-07-21 18:21:28 | INFO | mosquito_cv | Epoch [12/150] - Train Batch [0/7] - Loss: 0.6482
+2026-07-21 18:21:33 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 12 | Train Loss: 0.6094 | Val Loss: 0.9875
+2026-07-21 18:21:34 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 0.9875)
+2026-07-21 18:21:36 | INFO | mosquito_cv | Epoch [13/150] - Train Batch [0/7] - Loss: 0.4858
+2026-07-21 18:21:41 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 13 | Train Loss: 0.5455 | Val Loss: 1.0492
+2026-07-21 18:21:43 | INFO | mosquito_cv | Epoch [14/150] - Train Batch [0/7] - Loss: 0.4804
+2026-07-21 18:21:49 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 14 | Train Loss: 0.4743 | Val Loss: 1.0594
+2026-07-21 18:21:51 | INFO | mosquito_cv | Epoch [15/150] - Train Batch [0/7] - Loss: 0.4840
+2026-07-21 18:21:57 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 15 | Train Loss: 0.4520 | Val Loss: 1.0230
+2026-07-21 18:21:59 | INFO | mosquito_cv | Epoch [16/150] - Train Batch [0/7] - Loss: 0.3950
+2026-07-21 18:22:05 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 16 | Train Loss: 0.4270 | Val Loss: 1.0839
+2026-07-21 18:22:08 | INFO | mosquito_cv | Epoch [17/150] - Train Batch [0/7] - Loss: 0.4023
+2026-07-21 18:22:13 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 17 | Train Loss: 0.3944 | Val Loss: 0.9398
+2026-07-21 18:22:14 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 0.9398)
+2026-07-21 18:22:16 | INFO | mosquito_cv | Epoch [18/150] - Train Batch [0/7] - Loss: 0.3872
+2026-07-21 18:22:22 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 18 | Train Loss: 0.3752 | Val Loss: 0.8826
+2026-07-21 18:22:22 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 0.8826)
+2026-07-21 18:22:24 | INFO | mosquito_cv | Epoch [19/150] - Train Batch [0/7] - Loss: 0.3983
+2026-07-21 18:22:30 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 19 | Train Loss: 0.3814 | Val Loss: 1.1230
+2026-07-21 18:22:33 | INFO | mosquito_cv | Epoch [20/150] - Train Batch [0/7] - Loss: 0.3940
+2026-07-21 18:22:39 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 20 | Train Loss: 0.3718 | Val Loss: 1.1566
+2026-07-21 18:22:41 | INFO | mosquito_cv | Epoch [21/150] - Train Batch [0/7] - Loss: 0.3630
+2026-07-21 18:22:47 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 21 | Train Loss: 0.3375 | Val Loss: 0.9951
+2026-07-21 18:22:49 | INFO | mosquito_cv | Epoch [22/150] - Train Batch [0/7] - Loss: 0.3040
+2026-07-21 18:22:55 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 22 | Train Loss: 0.3226 | Val Loss: 0.9570
+2026-07-21 18:22:58 | INFO | mosquito_cv | Epoch [23/150] - Train Batch [0/7] - Loss: 0.3496
+2026-07-21 18:23:03 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 23 | Train Loss: 0.3298 | Val Loss: 0.8530
+2026-07-21 18:23:03 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 0.8530)
+2026-07-21 18:23:05 | INFO | mosquito_cv | Epoch [24/150] - Train Batch [0/7] - Loss: 0.2813
+2026-07-21 18:23:11 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 24 | Train Loss: 0.3551 | Val Loss: 1.2651
+2026-07-21 18:23:14 | INFO | mosquito_cv | Epoch [25/150] - Train Batch [0/7] - Loss: 0.4676
+2026-07-21 18:23:19 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 25 | Train Loss: 0.3458 | Val Loss: 0.7523
+2026-07-21 18:23:19 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 0.7523)
+2026-07-21 18:23:23 | INFO | mosquito_cv | Epoch [26/150] - Train Batch [0/7] - Loss: 0.2544
+2026-07-21 18:23:28 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 26 | Train Loss: 0.3004 | Val Loss: 0.9338
+2026-07-21 18:23:31 | INFO | mosquito_cv | Epoch [27/150] - Train Batch [0/7] - Loss: 0.2983
+2026-07-21 18:23:36 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 27 | Train Loss: 0.3192 | Val Loss: 1.5120
+2026-07-21 18:23:39 | INFO | mosquito_cv | Epoch [28/150] - Train Batch [0/7] - Loss: 0.2805
+2026-07-21 18:23:44 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 28 | Train Loss: 0.2924 | Val Loss: 0.9311
+2026-07-21 18:23:47 | INFO | mosquito_cv | Epoch [29/150] - Train Batch [0/7] - Loss: 0.2645
+2026-07-21 18:23:53 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 29 | Train Loss: 0.2805 | Val Loss: 0.8889
+2026-07-21 18:23:55 | INFO | mosquito_cv | Epoch [30/150] - Train Batch [0/7] - Loss: 0.3102
+2026-07-21 18:24:01 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 30 | Train Loss: 0.2835 | Val Loss: 0.8939
+2026-07-21 18:24:04 | INFO | mosquito_cv | Epoch [31/150] - Train Batch [0/7] - Loss: 0.2403
+2026-07-21 18:24:09 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 31 | Train Loss: 0.2464 | Val Loss: 0.8920
+2026-07-21 18:24:11 | INFO | mosquito_cv | Epoch [32/150] - Train Batch [0/7] - Loss: 0.2294
+2026-07-21 18:24:18 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 32 | Train Loss: 0.2233 | Val Loss: 0.8387
+2026-07-21 18:24:20 | INFO | mosquito_cv | Epoch [33/150] - Train Batch [0/7] - Loss: 0.2491
+2026-07-21 18:24:26 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 33 | Train Loss: 0.2244 | Val Loss: 0.8641
+2026-07-21 18:24:29 | INFO | mosquito_cv | Epoch [34/150] - Train Batch [0/7] - Loss: 0.1929
+2026-07-21 18:24:34 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 34 | Train Loss: 0.1966 | Val Loss: 0.8327
+2026-07-21 18:24:37 | INFO | mosquito_cv | Epoch [35/150] - Train Batch [0/7] - Loss: 0.1791
+2026-07-21 18:24:42 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 35 | Train Loss: 0.1896 | Val Loss: 0.8072
+2026-07-21 18:24:45 | INFO | mosquito_cv | Epoch [36/150] - Train Batch [0/7] - Loss: 0.1952
+2026-07-21 18:24:51 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 36 | Train Loss: 0.1818 | Val Loss: 0.8211
+2026-07-21 18:24:54 | INFO | mosquito_cv | Epoch [37/150] - Train Batch [0/7] - Loss: 0.1656
+2026-07-21 18:24:59 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 37 | Train Loss: 0.1758 | Val Loss: 0.8928
+2026-07-21 18:25:01 | INFO | mosquito_cv | Epoch [38/150] - Train Batch [0/7] - Loss: 0.1479
+2026-07-21 18:25:07 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 38 | Train Loss: 0.1750 | Val Loss: 0.8346
+2026-07-21 18:25:09 | INFO | mosquito_cv | Epoch [39/150] - Train Batch [0/7] - Loss: 0.1884
+2026-07-21 18:25:16 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 39 | Train Loss: 0.1684 | Val Loss: 0.8449
+2026-07-21 18:25:19 | INFO | mosquito_cv | Epoch [40/150] - Train Batch [0/7] - Loss: 0.1695
+2026-07-21 18:25:24 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 40 | Train Loss: 0.1611 | Val Loss: 0.8852
+2026-07-21 18:25:27 | INFO | mosquito_cv | Epoch [41/150] - Train Batch [0/7] - Loss: 0.1560
+2026-07-21 18:25:32 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 41 | Train Loss: 0.1525 | Val Loss: 0.8486
+2026-07-21 18:25:35 | INFO | mosquito_cv | Epoch [42/150] - Train Batch [0/7] - Loss: 0.1385
+2026-07-21 18:25:40 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 42 | Train Loss: 0.1449 | Val Loss: 0.8157
+2026-07-21 18:25:44 | INFO | mosquito_cv | Epoch [43/150] - Train Batch [0/7] - Loss: 0.1267
+2026-07-21 18:25:49 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 43 | Train Loss: 0.1426 | Val Loss: 0.8392
+2026-07-21 18:25:52 | INFO | mosquito_cv | Epoch [44/150] - Train Batch [0/7] - Loss: 0.1154
+2026-07-21 18:25:58 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 44 | Train Loss: 0.1358 | Val Loss: 0.8333
+2026-07-21 18:26:00 | INFO | mosquito_cv | Epoch [45/150] - Train Batch [0/7] - Loss: 0.1402
+2026-07-21 18:26:06 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 45 | Train Loss: 0.1406 | Val Loss: 0.8137
+2026-07-21 18:26:10 | INFO | mosquito_cv | Epoch [46/150] - Train Batch [0/7] - Loss: 0.1300
+2026-07-21 18:26:15 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 46 | Train Loss: 0.1340 | Val Loss: 0.8333
+2026-07-21 18:26:18 | INFO | mosquito_cv | Epoch [47/150] - Train Batch [0/7] - Loss: 0.1336
+2026-07-21 18:26:24 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 47 | Train Loss: 0.1292 | Val Loss: 0.7856
+2026-07-21 18:26:26 | INFO | mosquito_cv | Epoch [48/150] - Train Batch [0/7] - Loss: 0.1358
+2026-07-21 18:26:32 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 48 | Train Loss: 0.1260 | Val Loss: 0.8046
+2026-07-21 18:26:35 | INFO | mosquito_cv | Epoch [49/150] - Train Batch [0/7] - Loss: 0.1318
+2026-07-21 18:26:40 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 49 | Train Loss: 0.1207 | Val Loss: 0.8196
+2026-07-21 18:26:43 | INFO | mosquito_cv | Epoch [50/150] - Train Batch [0/7] - Loss: 0.1208
+2026-07-21 18:26:49 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 50 | Train Loss: 0.1172 | Val Loss: 0.8479
+2026-07-21 18:26:51 | INFO | mosquito_cv | Epoch [51/150] - Train Batch [0/7] - Loss: 0.1225
+2026-07-21 18:26:57 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 51 | Train Loss: 0.1120 | Val Loss: 0.8366
+2026-07-21 18:26:59 | INFO | mosquito_cv | Epoch [52/150] - Train Batch [0/7] - Loss: 0.1030
+2026-07-21 18:27:05 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 52 | Train Loss: 0.1309 | Val Loss: 0.9179
+2026-07-21 18:27:08 | INFO | mosquito_cv | Epoch [53/150] - Train Batch [0/7] - Loss: 0.1371
+2026-07-21 18:27:14 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 53 | Train Loss: 0.1240 | Val Loss: 0.8456
+2026-07-21 18:27:16 | INFO | mosquito_cv | Epoch [54/150] - Train Batch [0/7] - Loss: 0.1242
+2026-07-21 18:27:22 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 54 | Train Loss: 0.1118 | Val Loss: 0.8225
+2026-07-21 18:27:24 | INFO | mosquito_cv | Epoch [55/150] - Train Batch [0/7] - Loss: 0.0990
+2026-07-21 18:27:30 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 55 | Train Loss: 0.1082 | Val Loss: 0.8381
+2026-07-21 18:27:32 | INFO | mosquito_cv | Epoch [56/150] - Train Batch [0/7] - Loss: 0.1086
+2026-07-21 18:27:39 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 56 | Train Loss: 0.1058 | Val Loss: 0.8846
+2026-07-21 18:27:41 | INFO | mosquito_cv | Epoch [57/150] - Train Batch [0/7] - Loss: 0.1171
+2026-07-21 18:27:47 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 57 | Train Loss: 0.1039 | Val Loss: 0.8555
+2026-07-21 18:27:49 | INFO | mosquito_cv | Epoch [58/150] - Train Batch [0/7] - Loss: 0.0901
+2026-07-21 18:27:55 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 58 | Train Loss: 0.0945 | Val Loss: 0.8571
+2026-07-21 18:27:57 | INFO | mosquito_cv | Epoch [59/150] - Train Batch [0/7] - Loss: 0.0967
+2026-07-21 18:28:04 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 59 | Train Loss: 0.0957 | Val Loss: 0.8198
+2026-07-21 18:28:06 | INFO | mosquito_cv | Epoch [60/150] - Train Batch [0/7] - Loss: 0.0924
+2026-07-21 18:28:12 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 60 | Train Loss: 0.0957 | Val Loss: 0.8339
+2026-07-21 18:28:15 | INFO | mosquito_cv | Epoch [61/150] - Train Batch [0/7] - Loss: 0.1022
+2026-07-21 18:28:21 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 61 | Train Loss: 0.0900 | Val Loss: 0.8386
+2026-07-21 18:28:23 | INFO | mosquito_cv | Epoch [62/150] - Train Batch [0/7] - Loss: 0.0909
+2026-07-21 18:28:29 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 62 | Train Loss: 0.0886 | Val Loss: 0.8753
+2026-07-21 18:28:32 | INFO | mosquito_cv | Epoch [63/150] - Train Batch [0/7] - Loss: 0.0873
+2026-07-21 18:28:38 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 63 | Train Loss: 0.0850 | Val Loss: 0.8544
+2026-07-21 18:28:40 | INFO | mosquito_cv | Epoch [64/150] - Train Batch [0/7] - Loss: 0.0978
+2026-07-21 18:28:46 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 64 | Train Loss: 0.0845 | Val Loss: 0.8417
+2026-07-21 18:28:49 | INFO | mosquito_cv | Epoch [65/150] - Train Batch [0/7] - Loss: 0.0813
+2026-07-21 18:28:55 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 65 | Train Loss: 0.0817 | Val Loss: 0.8912
+2026-07-21 18:28:58 | INFO | mosquito_cv | Epoch [66/150] - Train Batch [0/7] - Loss: 0.0777
+2026-07-21 18:29:04 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 66 | Train Loss: 0.0781 | Val Loss: 0.8852
+2026-07-21 18:29:06 | INFO | mosquito_cv | Epoch [67/150] - Train Batch [0/7] - Loss: 0.0770
+2026-07-21 18:29:12 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 67 | Train Loss: 0.0777 | Val Loss: 0.8379
+2026-07-21 18:29:14 | INFO | mosquito_cv | Epoch [68/150] - Train Batch [0/7] - Loss: 0.0738
+2026-07-21 18:29:20 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 68 | Train Loss: 0.0751 | Val Loss: 0.8584
+2026-07-21 18:29:23 | INFO | mosquito_cv | Epoch [69/150] - Train Batch [0/7] - Loss: 0.0650
+2026-07-21 18:29:29 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 69 | Train Loss: 0.0719 | Val Loss: 0.8473
+2026-07-21 18:29:31 | INFO | mosquito_cv | Epoch [70/150] - Train Batch [0/7] - Loss: 0.0645
+2026-07-21 18:29:37 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 70 | Train Loss: 0.0700 | Val Loss: 0.8222
+2026-07-21 18:29:39 | INFO | mosquito_cv | Epoch [71/150] - Train Batch [0/7] - Loss: 0.0683
+2026-07-21 18:29:45 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 71 | Train Loss: 0.0664 | Val Loss: 0.8584
+2026-07-21 18:29:48 | INFO | mosquito_cv | Epoch [72/150] - Train Batch [0/7] - Loss: 0.0610
+2026-07-21 18:29:54 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 72 | Train Loss: 0.0658 | Val Loss: 0.8794
+2026-07-21 18:29:56 | INFO | mosquito_cv | Epoch [73/150] - Train Batch [0/7] - Loss: 0.0692
+2026-07-21 18:30:02 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 73 | Train Loss: 0.0734 | Val Loss: 1.0616
+2026-07-21 18:30:05 | INFO | mosquito_cv | Epoch [74/150] - Train Batch [0/7] - Loss: 0.0877
+2026-07-21 18:30:10 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 74 | Train Loss: 0.0754 | Val Loss: 0.9207
+2026-07-21 18:30:13 | INFO | mosquito_cv | Epoch [75/150] - Train Batch [0/7] - Loss: 0.0881
+2026-07-21 18:30:19 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 75 | Train Loss: 0.0761 | Val Loss: 0.9036
+2026-07-21 18:30:21 | INFO | mosquito_cv | Epoch [76/150] - Train Batch [0/7] - Loss: 0.0723
+2026-07-21 18:30:27 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 76 | Train Loss: 0.0678 | Val Loss: 0.8525
+2026-07-21 18:30:30 | INFO | mosquito_cv | Epoch [77/150] - Train Batch [0/7] - Loss: 0.0592
+2026-07-21 18:30:36 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 77 | Train Loss: 0.0695 | Val Loss: 0.8198
+2026-07-21 18:30:38 | INFO | mosquito_cv | Epoch [78/150] - Train Batch [0/7] - Loss: 0.0776
+2026-07-21 18:30:44 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 78 | Train Loss: 0.0690 | Val Loss: 0.9011
+2026-07-21 18:30:46 | INFO | mosquito_cv | Epoch [79/150] - Train Batch [0/7] - Loss: 0.0779
+2026-07-21 18:30:53 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 79 | Train Loss: 0.0681 | Val Loss: 0.8801
+2026-07-21 18:30:55 | INFO | mosquito_cv | Epoch [80/150] - Train Batch [0/7] - Loss: 0.0658
+2026-07-21 18:31:01 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 80 | Train Loss: 0.0620 | Val Loss: 0.8242
+2026-07-21 18:31:03 | INFO | mosquito_cv | Epoch [81/150] - Train Batch [0/7] - Loss: 0.0594
+2026-07-21 18:31:09 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 81 | Train Loss: 0.0589 | Val Loss: 0.8821
+2026-07-21 18:31:11 | INFO | mosquito_cv | Epoch [82/150] - Train Batch [0/7] - Loss: 0.0513
+2026-07-21 18:31:17 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 82 | Train Loss: 0.0561 | Val Loss: 0.8414
+2026-07-21 18:31:20 | INFO | mosquito_cv | Epoch [83/150] - Train Batch [0/7] - Loss: 0.0498
+2026-07-21 18:31:26 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 83 | Train Loss: 0.0541 | Val Loss: 0.8808
+2026-07-21 18:31:28 | INFO | mosquito_cv | Epoch [84/150] - Train Batch [0/7] - Loss: 0.0462
+2026-07-21 18:31:34 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 84 | Train Loss: 0.0502 | Val Loss: 0.8465
+2026-07-21 18:31:36 | INFO | mosquito_cv | Epoch [85/150] - Train Batch [0/7] - Loss: 0.0445
+2026-07-21 18:31:42 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 85 | Train Loss: 0.0474 | Val Loss: 0.8645
+2026-07-21 18:31:45 | INFO | mosquito_cv | Epoch [86/150] - Train Batch [0/7] - Loss: 0.0434
+2026-07-21 18:31:51 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 86 | Train Loss: 0.0473 | Val Loss: 0.8546
+2026-07-21 18:31:53 | INFO | mosquito_cv | Epoch [87/150] - Train Batch [0/7] - Loss: 0.0466
+2026-07-21 18:31:59 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 87 | Train Loss: 0.0481 | Val Loss: 0.8720
+2026-07-21 18:32:01 | INFO | mosquito_cv | Epoch [88/150] - Train Batch [0/7] - Loss: 0.0505
+2026-07-21 18:32:07 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 88 | Train Loss: 0.0503 | Val Loss: 0.8616
+2026-07-21 18:32:11 | INFO | mosquito_cv | Epoch [89/150] - Train Batch [0/7] - Loss: 0.0540
+2026-07-21 18:32:16 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 89 | Train Loss: 0.0497 | Val Loss: 0.8614
+2026-07-21 18:32:18 | INFO | mosquito_cv | Epoch [90/150] - Train Batch [0/7] - Loss: 0.0389
+2026-07-21 18:32:24 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 90 | Train Loss: 0.0468 | Val Loss: 0.8445
+2026-07-21 18:32:27 | INFO | mosquito_cv | Epoch [91/150] - Train Batch [0/7] - Loss: 0.0441
+2026-07-21 18:32:32 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 91 | Train Loss: 0.0457 | Val Loss: 0.8720
+2026-07-21 18:32:35 | INFO | mosquito_cv | Epoch [92/150] - Train Batch [0/7] - Loss: 0.0463
+2026-07-21 18:32:41 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 92 | Train Loss: 0.0434 | Val Loss: 0.8506
+2026-07-21 18:32:43 | INFO | mosquito_cv | Epoch [93/150] - Train Batch [0/7] - Loss: 0.0433
+2026-07-21 18:32:49 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 93 | Train Loss: 0.0417 | Val Loss: 0.8713
+2026-07-21 18:32:51 | INFO | mosquito_cv | Epoch [94/150] - Train Batch [0/7] - Loss: 0.0390
+2026-07-21 18:32:57 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 94 | Train Loss: 0.0447 | Val Loss: 0.8743
+2026-07-21 18:33:00 | INFO | mosquito_cv | Epoch [95/150] - Train Batch [0/7] - Loss: 0.0434
+2026-07-21 18:33:06 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 95 | Train Loss: 0.0440 | Val Loss: 0.8884
+2026-07-21 18:33:08 | INFO | mosquito_cv | Epoch [96/150] - Train Batch [0/7] - Loss: 0.0340
+2026-07-21 18:33:14 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 96 | Train Loss: 0.0405 | Val Loss: 0.8853
+2026-07-21 18:33:17 | INFO | mosquito_cv | Epoch [97/150] - Train Batch [0/7] - Loss: 0.0349
+2026-07-21 18:33:22 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 97 | Train Loss: 0.0400 | Val Loss: 0.8799
+2026-07-21 18:33:25 | INFO | mosquito_cv | Epoch [98/150] - Train Batch [0/7] - Loss: 0.0480
+2026-07-21 18:33:31 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 98 | Train Loss: 0.0454 | Val Loss: 0.9052
+2026-07-21 18:33:33 | INFO | mosquito_cv | Epoch [99/150] - Train Batch [0/7] - Loss: 0.0402
+2026-07-21 18:33:39 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 99 | Train Loss: 0.0430 | Val Loss: 0.8996
+2026-07-21 18:33:42 | INFO | mosquito_cv | Epoch [100/150] - Train Batch [0/7] - Loss: 0.0434
+2026-07-21 18:33:48 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 100 | Train Loss: 0.0399 | Val Loss: 0.8692
+2026-07-21 18:33:50 | INFO | mosquito_cv | Epoch [101/150] - Train Batch [0/7] - Loss: 0.0402
+2026-07-21 18:33:56 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 101 | Train Loss: 0.0371 | Val Loss: 0.8662
+2026-07-21 18:33:58 | INFO | mosquito_cv | Epoch [102/150] - Train Batch [0/7] - Loss: 0.0353
+2026-07-21 18:34:04 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 102 | Train Loss: 0.0382 | Val Loss: 0.8729
+2026-07-21 18:34:07 | INFO | mosquito_cv | Epoch [103/150] - Train Batch [0/7] - Loss: 0.0418
+2026-07-21 18:34:13 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 103 | Train Loss: 0.0386 | Val Loss: 0.9178
+2026-07-21 18:34:15 | INFO | mosquito_cv | Epoch [104/150] - Train Batch [0/7] - Loss: 0.0352
+2026-07-21 18:34:21 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 104 | Train Loss: 0.0379 | Val Loss: 0.8778
+2026-07-21 18:34:23 | INFO | mosquito_cv | Epoch [105/150] - Train Batch [0/7] - Loss: 0.0304
+2026-07-21 18:34:29 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 105 | Train Loss: 0.0346 | Val Loss: 0.8548
+2026-07-21 18:34:32 | INFO | mosquito_cv | Epoch [106/150] - Train Batch [0/7] - Loss: 0.0367
+2026-07-21 18:34:38 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 106 | Train Loss: 0.0325 | Val Loss: 0.8625
+2026-07-21 18:34:40 | INFO | mosquito_cv | Epoch [107/150] - Train Batch [0/7] - Loss: 0.0287
+2026-07-21 18:34:46 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 107 | Train Loss: 0.0349 | Val Loss: 0.8963
+2026-07-21 18:34:48 | INFO | mosquito_cv | Epoch [108/150] - Train Batch [0/7] - Loss: 0.0338
+2026-07-21 18:34:54 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 108 | Train Loss: 0.0364 | Val Loss: 0.8700
+2026-07-21 18:34:57 | INFO | mosquito_cv | Epoch [109/150] - Train Batch [0/7] - Loss: 0.0312
+2026-07-21 18:35:03 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 109 | Train Loss: 0.0336 | Val Loss: 0.8935
+2026-07-21 18:35:05 | INFO | mosquito_cv | Epoch [110/150] - Train Batch [0/7] - Loss: 0.0288
+2026-07-21 18:35:11 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 110 | Train Loss: 0.0347 | Val Loss: 0.9188
+2026-07-21 18:35:13 | INFO | mosquito_cv | Epoch [111/150] - Train Batch [0/7] - Loss: 0.0332
+2026-07-21 18:35:19 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 111 | Train Loss: 0.0331 | Val Loss: 0.9041
+2026-07-21 18:35:22 | INFO | mosquito_cv | Epoch [112/150] - Train Batch [0/7] - Loss: 0.0296
+2026-07-21 18:35:28 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 112 | Train Loss: 0.0304 | Val Loss: 0.8857
+2026-07-21 18:35:30 | INFO | mosquito_cv | Epoch [113/150] - Train Batch [0/7] - Loss: 0.0257
+2026-07-21 18:35:36 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 113 | Train Loss: 0.0300 | Val Loss: 0.9149
+2026-07-21 18:35:38 | INFO | mosquito_cv | Epoch [114/150] - Train Batch [0/7] - Loss: 0.0290
+2026-07-21 18:35:44 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 114 | Train Loss: 0.0282 | Val Loss: 0.8988
+2026-07-21 18:35:47 | INFO | mosquito_cv | Epoch [115/150] - Train Batch [0/7] - Loss: 0.0266
+2026-07-21 18:35:53 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 115 | Train Loss: 0.0275 | Val Loss: 0.8996
+2026-07-21 18:35:55 | INFO | mosquito_cv | Epoch [116/150] - Train Batch [0/7] - Loss: 0.0246
+2026-07-21 18:36:01 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 116 | Train Loss: 0.0283 | Val Loss: 0.8943
+2026-07-21 18:36:03 | INFO | mosquito_cv | Epoch [117/150] - Train Batch [0/7] - Loss: 0.0259
+2026-07-21 18:36:09 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 117 | Train Loss: 0.0292 | Val Loss: 0.9011
+2026-07-21 18:36:11 | INFO | mosquito_cv | Epoch [118/150] - Train Batch [0/7] - Loss: 0.0238
+2026-07-21 18:36:17 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 118 | Train Loss: 0.0274 | Val Loss: 0.9005
+2026-07-21 18:36:20 | INFO | mosquito_cv | Epoch [119/150] - Train Batch [0/7] - Loss: 0.0286
+2026-07-21 18:36:26 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 119 | Train Loss: 0.0320 | Val Loss: 0.9111
+2026-07-21 18:36:28 | INFO | mosquito_cv | Epoch [120/150] - Train Batch [0/7] - Loss: 0.0362
+2026-07-21 18:36:34 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 120 | Train Loss: 0.0373 | Val Loss: 0.9470
+2026-07-21 18:36:37 | INFO | mosquito_cv | Epoch [121/150] - Train Batch [0/7] - Loss: 0.0423
+2026-07-21 18:36:42 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 121 | Train Loss: 0.0426 | Val Loss: 0.8936
+2026-07-21 18:36:45 | INFO | mosquito_cv | Epoch [122/150] - Train Batch [0/7] - Loss: 0.0368
+2026-07-21 18:36:51 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 122 | Train Loss: 0.0359 | Val Loss: 0.9144
+2026-07-21 18:36:54 | INFO | mosquito_cv | Epoch [123/150] - Train Batch [0/7] - Loss: 0.0325
+2026-07-21 18:36:59 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 123 | Train Loss: 0.0345 | Val Loss: 0.9876
+2026-07-21 18:37:01 | INFO | mosquito_cv | Epoch [124/150] - Train Batch [0/7] - Loss: 0.0341
+2026-07-21 18:37:07 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 124 | Train Loss: 0.0346 | Val Loss: 0.9591
+2026-07-21 18:37:10 | INFO | mosquito_cv | Epoch [125/150] - Train Batch [0/7] - Loss: 0.0301
+2026-07-21 18:37:16 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 125 | Train Loss: 0.0348 | Val Loss: 0.9050
+2026-07-21 18:37:19 | INFO | mosquito_cv | Epoch [126/150] - Train Batch [0/7] - Loss: 0.0309
+2026-07-21 18:37:25 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 126 | Train Loss: 0.0341 | Val Loss: 0.8965
+2026-07-21 18:37:27 | INFO | mosquito_cv | Epoch [127/150] - Train Batch [0/7] - Loss: 0.0582
+2026-07-21 18:37:33 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 127 | Train Loss: 0.0348 | Val Loss: 0.9093
+2026-07-21 18:37:35 | INFO | mosquito_cv | Epoch [128/150] - Train Batch [0/7] - Loss: 0.0307
+2026-07-21 18:37:41 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 128 | Train Loss: 0.0355 | Val Loss: 0.8910
+2026-07-21 18:37:44 | INFO | mosquito_cv | Epoch [129/150] - Train Batch [0/7] - Loss: 0.0259
+2026-07-21 18:37:50 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 129 | Train Loss: 0.0356 | Val Loss: 0.9213
+2026-07-21 18:37:51 | INFO | mosquito_cv | Epoch [130/150] - Train Batch [0/7] - Loss: 0.0267
+2026-07-21 18:37:58 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 130 | Train Loss: 0.0279 | Val Loss: 0.8826
+2026-07-21 18:38:00 | INFO | mosquito_cv | Epoch [131/150] - Train Batch [0/7] - Loss: 0.0255
+2026-07-21 18:38:05 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 131 | Train Loss: 0.0251 | Val Loss: 0.9140
+2026-07-21 18:38:08 | INFO | mosquito_cv | Epoch [132/150] - Train Batch [0/7] - Loss: 0.0217
+2026-07-21 18:38:14 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 132 | Train Loss: 0.0228 | Val Loss: 0.9265
+2026-07-21 18:38:16 | INFO | mosquito_cv | Epoch [133/150] - Train Batch [0/7] - Loss: 0.0172
+2026-07-21 18:38:22 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 133 | Train Loss: 0.0238 | Val Loss: 0.9247
+2026-07-21 18:38:24 | INFO | mosquito_cv | Epoch [134/150] - Train Batch [0/7] - Loss: 0.0220
+2026-07-21 18:38:30 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 134 | Train Loss: 0.0229 | Val Loss: 0.9020
+2026-07-21 18:38:32 | INFO | mosquito_cv | Epoch [135/150] - Train Batch [0/7] - Loss: 0.0198
+2026-07-21 18:38:38 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 135 | Train Loss: 0.0228 | Val Loss: 0.9271
+2026-07-21 18:38:40 | INFO | mosquito_cv | Epoch [136/150] - Train Batch [0/7] - Loss: 0.0176
+2026-07-21 18:38:47 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 136 | Train Loss: 0.0231 | Val Loss: 0.9259
+2026-07-21 18:38:49 | INFO | mosquito_cv | Epoch [137/150] - Train Batch [0/7] - Loss: 0.0160
+2026-07-21 18:38:55 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 137 | Train Loss: 0.0219 | Val Loss: 0.9382
+2026-07-21 18:38:57 | INFO | mosquito_cv | Epoch [138/150] - Train Batch [0/7] - Loss: 0.0172
+2026-07-21 18:39:03 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 138 | Train Loss: 0.0202 | Val Loss: 0.8944
+2026-07-21 18:39:05 | INFO | mosquito_cv | Epoch [139/150] - Train Batch [0/7] - Loss: 0.0137
+2026-07-21 18:39:12 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 139 | Train Loss: 0.0183 | Val Loss: 0.9512
+2026-07-21 18:39:14 | INFO | mosquito_cv | Epoch [140/150] - Train Batch [0/7] - Loss: 0.0138
+2026-07-21 18:39:20 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 140 | Train Loss: 0.0198 | Val Loss: 0.9285
+2026-07-21 18:39:23 | INFO | mosquito_cv | Epoch [141/150] - Train Batch [0/7] - Loss: 0.0192
+2026-07-21 18:39:28 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 141 | Train Loss: 0.0207 | Val Loss: 0.9211
+2026-07-21 18:39:31 | INFO | mosquito_cv | Epoch [142/150] - Train Batch [0/7] - Loss: 0.0225
+2026-07-21 18:39:37 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 142 | Train Loss: 0.0209 | Val Loss: 0.9482
+2026-07-21 18:39:40 | INFO | mosquito_cv | Epoch [143/150] - Train Batch [0/7] - Loss: 0.0167
+2026-07-21 18:39:45 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 143 | Train Loss: 0.0204 | Val Loss: 0.9584
+2026-07-21 18:39:48 | INFO | mosquito_cv | Epoch [144/150] - Train Batch [0/7] - Loss: 0.0177
+2026-07-21 18:39:54 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 144 | Train Loss: 0.0198 | Val Loss: 0.9434
+2026-07-21 18:39:56 | INFO | mosquito_cv | Epoch [145/150] - Train Batch [0/7] - Loss: 0.0206
+2026-07-21 18:40:02 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 145 | Train Loss: 0.0194 | Val Loss: 0.9358
+2026-07-21 18:40:05 | INFO | mosquito_cv | Epoch [146/150] - Train Batch [0/7] - Loss: 0.0190
+2026-07-21 18:40:11 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 146 | Train Loss: 0.0178 | Val Loss: 0.9388
+2026-07-21 18:40:13 | INFO | mosquito_cv | Epoch [147/150] - Train Batch [0/7] - Loss: 0.0208
+2026-07-21 18:40:19 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 147 | Train Loss: 0.0186 | Val Loss: 0.9755
+2026-07-21 18:40:21 | INFO | mosquito_cv | Epoch [148/150] - Train Batch [0/7] - Loss: 0.0354
+2026-07-21 18:40:27 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 148 | Train Loss: 0.0225 | Val Loss: 1.0683
+2026-07-21 18:40:30 | INFO | mosquito_cv | Epoch [149/150] - Train Batch [0/7] - Loss: 0.0215
+2026-07-21 18:40:36 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 149 | Train Loss: 0.0296 | Val Loss: 0.9551
+2026-07-21 18:40:38 | INFO | mosquito_cv | Epoch [150/150] - Train Batch [0/7] - Loss: 0.0227
+2026-07-21 18:40:44 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 150 | Train Loss: 0.0289 | Val Loss: 0.9390
