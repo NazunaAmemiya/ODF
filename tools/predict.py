@@ -3,7 +3,10 @@ import cv2
 import yaml
 import torch
 import numpy as np
+import os
+import sys
 
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 # Import các module chuẩn xác từ framework ODF của bạn
 from src.models.builder import build_model
 from src.models.decoders.seg_decoder import SegDecoder
@@ -28,23 +31,50 @@ def load_config(config_path):
     with open(config_path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
-def preprocess_image(image_path, input_size=(640, 640), device='cpu'):
-    """Đọc, resize và chuẩn hóa ảnh thành Tensor"""
+def letterbox_image(image, expected_size):
+    """Giữ nguyên tỷ lệ ảnh, bù viền xám (114,114,114) chuẩn YOLOv8"""
+    ih, iw = image.shape[0:2]
+    ew, eh = expected_size
+    scale = min(ew / iw, eh / ih)
+    nw = int(iw * scale)
+    nh = int(ih * scale)
+    
+    image_resized = cv2.resize(image, (nw, nh))
+    image_padded = np.full((eh, ew, 3), 114, dtype=np.uint8)
+    
+    dx = (ew - nw) // 2
+    dy = (eh - nh) // 2
+    image_padded[dy:dy+nh, dx:dx+nw, :] = image_resized
+    
+    return image_padded
+
+def preprocess_image(image_path, input_size, device):
+    # 1. Đọc ảnh BGR bằng OpenCV
     img_bgr = cv2.imread(image_path)
     if img_bgr is None:
-        raise ValueError(f"❌ Không thể đọc ảnh từ {image_path}. Vui lòng kiểm tra lại đường dẫn!")
+        raise ValueError(f"Không thể đọc ảnh: {image_path}")
     
-    # Giữ lại ảnh đã resize để xíu nữa đưa vào Visualizer vẽ cho khớp tọa độ
-    img_resized = cv2.resize(img_bgr, input_size)
+    # 2. Xử lý Letterbox giữ nguyên tỷ lệ
+    img_padded = letterbox_image(img_bgr, (input_size[0], input_size[1]))
     
-    # Chuyển BGR (OpenCV) sang RGB và Normalize (/255.0)
-    img_rgb = cv2.cvtColor(img_resized, cv2.COLOR_BGR2RGB)
+    # 3. Chuyển sang hệ màu RGB (Do AI thường học trên RGB)
+    img_rgb = cv2.cvtColor(img_padded, cv2.COLOR_BGR2RGB)
+    
+    # 4. Chuyển thành Tensor và Scale về [0, 1]
     img_tensor = torch.from_numpy(img_rgb).permute(2, 0, 1).float() / 255.0
     
-    # Thêm batch dimension -> (1, C, H, W)
+    # 5. CHUẨN HÓA (NORMALIZE) - BƯỚC QUYẾT ĐỊNH
+    # Thông số mặc định chuẩn của ImageNet
+    mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
+    std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+    
+    # Phép tính này đồng bộ hoàn toàn với hàm Normalize lúc Train
+    img_tensor = (img_tensor - mean) / std 
+    
     img_tensor = img_tensor.unsqueeze(0).to(device)
     
-    return img_tensor, img_resized
+    # Trả về img_padded để hàm Visualize vẽ lên cho chính xác
+    return img_tensor, img_padded
 
 def main():
     args = parse_args()
@@ -87,24 +117,20 @@ def main():
         
     # ==========================================
     # 4. GIẢI MÃ KẾT QUẢ (DECODE)
-    # ==========================================
-    # Khởi tạo SegDecoder với mask_threshold (mặc định 0.5)
-    decoder = SegDecoder(mask_threshold=0.5)
-    
-    # Chạy hàm decode đúng như cấu trúc class bạn đã viết
-    detections = decoder.decode(
-        outputs=raw_outputs, 
-        image_size=input_size, 
-        conf_thres=args.conf_thresh
-    )
-    
+
+    # ==========================================    
     # Dữ liệu trả về là 1 List, ta lấy phần tử đầu tiên (vì chỉ truyền vào 1 ảnh)
-    predictions = detections[0]
+    predictions = raw_outputs[0]
     
     boxes = predictions.get('boxes', [])
     scores = predictions.get('scores', [])
     class_ids = predictions.get('classes', [])
     masks = predictions.get('masks', [])
+
+    print("--- DEBUG: AI DỰ ĐOÁN ---")
+    scores = predictions.get('scores', [])
+    print(f"Danh sách các điểm tin cậy (scores): {scores}")
+    print(f"Số lượng boxes tìm thấy (trước khi lọc): {len(predictions.get('boxes', []))}")
 
     if len(boxes) == 0:
         print("🤷‍♂️ Không tìm thấy đối tượng nào thỏa mãn độ tin cậy.")
