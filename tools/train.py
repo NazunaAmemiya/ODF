@@ -129,6 +129,13 @@ def main():
         
         for batch_idx, batch_data in enumerate(train_loader):
             images = batch_data['img'].to(device)
+            
+            if epoch == 1 and batch_idx == 0:
+                print("\n[DEBUG TRAIN] TENSOR ẢNH ĐẦU VÀO:")
+                print(f"- Shape: {images.shape}")
+                print(f"- Min value: {images.min().item():.4f}")
+                print(f"- Max value: {images.max().item():.4f}\n")
+            
             targets = {k: v.to(device) for k, v in batch_data.items() if k != 'img'}
             
             loss = model(images, targets)

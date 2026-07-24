@@ -62,11 +62,13 @@ def preprocess_image(image_path, input_size, device):
     # 3. To Tensor [0, 1]
     img_tensor = torch.from_numpy(img_rgb).permute(2, 0, 1).float() / 255.0
     
-    # 4. Normalize (ImageNet standard)
-    mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
-    std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
-    img_tensor = (img_tensor - mean) / std 
-    
+    # ---------------- BỎ ĐOẠN NÀY ĐI ----------------
+    # # 4. Normalize (ImageNet standard)
+    # mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
+    # std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
+    # img_tensor = (img_tensor - mean) / std 
+    # -------------------------------------------------
+
     img_tensor = img_tensor.unsqueeze(0).to(device)
     return img_tensor, img_padded
 
@@ -98,6 +100,11 @@ def main():
         input_size = tuple(input_size)
 
     img_tensor, img_draw = preprocess_image(args.source, input_size, device)
+
+    print("\n[DEBUG PREDICT] TENSOR ẢNH ĐẦU VÀO:")
+    print(f"- Shape: {img_tensor.shape}")
+    print(f"- Min value: {img_tensor.min().item():.4f}")
+    print(f"- Max value: {img_tensor.max().item():.4f}\n")
 
     # ==========================================
     # 3. TIẾN HÀNH SUY LUẬN & GIẢI MÃ
