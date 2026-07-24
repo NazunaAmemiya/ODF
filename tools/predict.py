@@ -48,27 +48,18 @@ def letterbox_image(image, expected_size):
     return image_padded
 
 def preprocess_image(image_path, input_size, device):
-    """Tiền xử lý: Letterbox -> RGB -> Tensor -> Normalize"""
     img_bgr = cv2.imread(image_path)
-    if img_bgr is None:
-        raise ValueError(f"❌ Không thể đọc ảnh: {image_path}")
     
-    # 1. Letterbox
-    img_padded = letterbox_image(img_bgr, (input_size[0], input_size[1]))
+    # --- ĐỔI CÁCH RESIZE TẠI ĐÂY ---
+    # TẮT: img_padded = letterbox_image(img_bgr, (input_size[0], input_size[1]))
     
-    # 2. BGR to RGB
+    # BẬT: Ép kích thước thành 640x640 (bóp méo nếu cần)
+    img_padded = cv2.resize(img_bgr, (input_size[0], input_size[1]))
+    # -------------------------------
+    
     img_rgb = cv2.cvtColor(img_padded, cv2.COLOR_BGR2RGB)
-    
-    # 3. To Tensor [0, 1]
     img_tensor = torch.from_numpy(img_rgb).permute(2, 0, 1).float() / 255.0
     
-    # ---------------- BỎ ĐOẠN NÀY ĐI ----------------
-    # # 4. Normalize (ImageNet standard)
-    # mean = torch.tensor([0.485, 0.456, 0.406]).view(3, 1, 1)
-    # std = torch.tensor([0.229, 0.224, 0.225]).view(3, 1, 1)
-    # img_tensor = (img_tensor - mean) / std 
-    # -------------------------------------------------
-
     img_tensor = img_tensor.unsqueeze(0).to(device)
     return img_tensor, img_padded
 
@@ -111,28 +102,61 @@ def main():
     # ==========================================
     print("🧠 Trí tuệ nhân tạo đang phân tích ảnh...")
     with torch.no_grad():
-        raw_outputs = model(img_tensor)
+        # Do model đã tự decode, output trả ra chính là kết quả cuối cùng
+        outputs = model(img_tensor) 
         
-    # KHỞI TẠO DECODER LỌC NHIỄU VÀ ÁP DỤNG NGƯỠNG TIN CẬY
-    decoder = SegDecoder(conf_thresh=args.conf_thresh)
-    decoded_outputs = decoder(raw_outputs)
+    predictions = outputs[0]
     
-    predictions = decoded_outputs[0]
+    # Lấy dữ liệu ra khỏi Dictionary dạng Tensor
+    all_boxes = predictions.get('boxes', torch.tensor([]))
+    all_scores = predictions.get('scores', torch.tensor([]))
+    all_class_ids = predictions.get('labels', torch.tensor([]))
+    all_masks = predictions.get('masks', torch.tensor([]))
+
+    # BƯỚC BẢO VỆ 1: Nếu AI không trả về bất kỳ box nào, dừng luôn
+    if len(all_boxes) == 0:
+        print("🤷‍♂️ AI không tìm thấy đối tượng nào trên ảnh.")
+        return
+
+    # Lọc thủ công các kết quả đạt ngưỡng tin cậy (conf_thresh)
+    keep_idx = all_scores >= args.conf_thresh
     
-    boxes = predictions.get('boxes', [])
-    scores = predictions.get('scores', [])
-    class_ids = predictions.get('labels', []) # Đã sửa thành 'labels' cho chuẩn
-    masks = predictions.get('masks', [])
+    boxes = all_boxes[keep_idx]
+    scores = all_scores[keep_idx]
+    class_ids = all_class_ids[keep_idx]
+
+    # BƯỚC BẢO VỆ 2: Chỉ lọc mask nếu số lượng của chúng khớp với boxes
+    if len(all_masks) == len(all_boxes):
+        masks = all_masks[keep_idx]
+    else:
+        # Nếu model trả về mask dưới dạng semantic (1 mask cho toàn ảnh)
+        masks = all_masks 
 
     print("--- DEBUG: AI DỰ ĐOÁN ---")
-    print(f"Danh sách các điểm tin cậy (scores): {scores}")
-    print(f"Số lượng boxes tìm thấy: {len(boxes)}")
+    print(f"Danh sách các điểm tin cậy (scores): {scores.tolist() if isinstance(scores, torch.Tensor) else scores}")
+    print(f"Số lượng boxes tìm thấy sau khi lọc ngưỡng {args.conf_thresh}: {len(boxes)}")
 
     if len(boxes) == 0:
         print("🤷‍♂️ Không tìm thấy đối tượng nào thỏa mãn độ tin cậy.")
         return
 
     print(f"🎯 Phát hiện {len(boxes)} vật thể!")
+
+    # ==========================================
+    # 4. VẼ KHUNG & MẶT NẠ
+    # ==========================================
+    visualizer = SegVisualizer(class_names=class_names)
+    
+    result_img = visualizer.draw(
+        image=img_draw, 
+        boxes=boxes, 
+        masks=masks, 
+        classes=class_ids, 
+        scores=scores
+    )
+
+    cv2.imwrite(args.out, result_img)
+    print(f"📸 Đã lưu bức ảnh phân vùng thành công tại: {args.out}")
 
     # ==========================================
     # 4. VẼ KHUNG & MẶT NẠ
