@@ -56,7 +56,14 @@ def main():
     state_dict = checkpoint.get('state_dict', checkpoint)
     model.load_state_dict(state_dict, strict=True)
     model.to(device)
-    model.eval() 
+    model.eval()
+
+    try:
+        # Ép mô hình phải nhả ra mọi thứ dù độ tự tin chỉ có 0.1%
+        model.head.test_cfg['score_thr'] = 0.001 
+        print("🔓 Đã bẻ khóa ngưỡng tin cậy ngầm của mô hình xuống 0.001")
+    except:
+        pass
 
     # ==========================================
     # 2. CHUẨN BỊ DỮ LIỆU
