@@ -1,4 +1,4 @@
-﻿"""Training engine."""
+"""Training engine."""
 
 from .callbacks import Callback, CheckpointHook, EarlyStopping
 from .optim import LinearWarmupCosineLR, build_optimizer, build_param_groups, build_scheduler

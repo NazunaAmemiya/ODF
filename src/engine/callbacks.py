@@ -8,7 +8,6 @@ from typing import Any, Dict, Optional
 import torch
 
 from src.utils.checkpoint import save_checkpoint
-from src.engine.callbacks import Callback, CheckpointHook, EarlyStopping
 
 class Callback:
     """Base callback with optional lifecycle hooks."""

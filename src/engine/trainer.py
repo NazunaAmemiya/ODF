@@ -1,4 +1,4 @@
-﻿"""Reusable trainer for Mosquito-CV models."""
+"""Reusable trainer for Mosquito-CV models."""
 
 from __future__ import annotations
 
@@ -8,7 +8,7 @@ from typing import Any, Dict, Iterable, List, Optional
 import torch
 
 from src.datasets.builder import build_dataloader
-from src.engine.callbacks import Callback, CheckpointHook
+from src.engine.callbacks import Callback, CheckpointHook, EarlyStopping
 from src.engine.optim import build_optimizer, build_scheduler
 from src.models.builder import build_model
 from src.utils.logger import TensorboardLogger, setup_logger
@@ -49,18 +49,31 @@ class Trainer:
             enabled=bool(logging_cfg.get("use_tensorboard", False)),
         )
         ckpt_cfg = cfg.get("checkpoint", {})
+        
+        # 1. Giữ nguyên cấu hình lưu Checkpoint
         default_callbacks: List[Callback] = [
             CheckpointHook(
                 self.work_dir,
                 interval=int(ckpt_cfg.get("interval", 1)),
                 save_best=bool(ckpt_cfg.get("save_best", True)),
-                monitor=str(ckpt_cfg.get("monitor_metric", "loss")),
-                mode="min" if str(ckpt_cfg.get("monitor_metric", "loss")).lower().endswith("loss") else "max",
+                monitor=str(ckpt_cfg.get("monitor_metric", "val_loss")), 
+                mode="min"
             )
         ]
+        
+        # 2. CHÈN THÊM TÍNH NĂNG EARLY STOPPING VÀO DANH SÁCH
+        early_stop_cfg = cfg.get("early_stopping", {})
+        if early_stop_cfg.get("enabled", True):
+            default_callbacks.append(
+                EarlyStopping(
+                    monitor=early_stop_cfg.get("monitor", "val_loss"),
+                    patience=int(early_stop_cfg.get("patience", 15)),
+                    mode="min"
+                )
+            )
+
+        # 3. Chốt danh sách callbacks
         self.callbacks = default_callbacks + list(callbacks or [])
-        self.global_step = 0
-        self.should_stop = False
 
     def train(self) -> None:
         epochs = int(self.cfg.get("epochs", 100))
