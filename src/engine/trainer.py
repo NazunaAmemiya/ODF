@@ -87,6 +87,11 @@ class Trainer:
             for callback in self.callbacks:
                 callback.on_epoch_start(self, epoch)
             metrics = self.train_one_epoch(epoch, interval)
+            if self.val_loader is not None:
+                val_loss = self.validate()
+                metrics["val_loss"] = val_loss # Đưa val_loss vào metrics để EarlyStopping nhìn thấy
+                self.tb.add_scalar("val/loss", val_loss, self.global_step)
+                self.logger.info("Epoch %s Validation | val_loss %.4f", epoch, val_loss)
             if self.scheduler is not None:
                 self.scheduler.step()
             for callback in self.callbacks:
