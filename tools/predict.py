@@ -8,45 +8,55 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from src.models.builder import build_model
-from src.models.decoders.seg_decoder import SegDecoder
+# --- IMPORT HÀM BUILDER CỦA CHÍNH FRAMEWORK ---
+from src.datasets.builder import _build_transforms
 from src.visualization.seg_visualizer import SegVisualizer
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='🦟 Dự đoán và Phân vùng muỗi (Segmentation Inference)')
+    parser = argparse.ArgumentParser(description='🦟 Dự đoán và Phân vùng muỗi')
     parser.add_argument('--config', type=str, required=True, help='Đường dẫn file YAML')
     parser.add_argument('--checkpoint', type=str, required=True, help='Đường dẫn tới file trọng số')
     parser.add_argument('--source', type=str, required=True, help='Đường dẫn tới bức ảnh cần test')
-    parser.add_argument('--out', type=str, default='result.jpg', help='Tên file ảnh xuất ra sau khi vẽ')
-    parser.add_argument('--conf-thresh', type=float, default=0.5, help='Ngưỡng tin cậy tối thiểu (mặc định: 0.5)')
+    parser.add_argument('--out', type=str, default='result.jpg', help='Tên file ảnh xuất ra')
+    parser.add_argument('--conf-thresh', type=float, default=0.5, help='Ngưỡng tin cậy')
     return parser.parse_args()
 
 def load_config(config_path):
     with open(config_path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
-import torchvision.transforms as T
-
-def preprocess_image(image_path, input_size, device):
-    """Tiền xử lý khớp 100% với Dataloader lúc huấn luyện"""
-    img_bgr = cv2.imread(image_path)
-    if img_bgr is None:
+def preprocess_image_auto(image_path, cfg, device):
+    """
+    Tiền xử lý tự động: Dùng chính code Dataloader của framework để 
+    bảo đảm không có 0.001% sai lệch nào so với lúc Train.
+    """
+    image = cv2.imread(image_path)
+    if image is None:
         raise ValueError(f"❌ Không thể đọc ảnh: {image_path}")
     
-    # 1. Resize ép buộc
-    img_padded = cv2.resize(img_bgr, (input_size[0], input_size[1]), interpolation=cv2.INTER_LINEAR)
+    # BaseMosquitoDataset luôn đọc RGB trước khi đưa vào pipeline
+    image_rgb = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     
-    # 2. Chuyển BGR sang RGB
-    img_rgb = cv2.cvtColor(img_padded, cv2.COLOR_BGR2RGB)
+    # Lấy thông số từ YAML
+    pipeline_cfg = cfg.get('pipeline', {})
+    input_size = pipeline_cfg.get('input_size', [640, 640])
+    if isinstance(input_size, list):
+        input_size = tuple(input_size)
+        
+    # Gọi hàm nội bộ để build Pipeline y hệt tập Validation
+    transforms = _build_transforms(pipeline_cfg, list(input_size), is_train=False)
     
-    # 3. Chuyển thành Tensor và chia 255.0
-    img_tensor = torch.from_numpy(img_rgb).permute(2, 0, 1).float() / 255.0
+    # Chạy ảnh qua Pipeline
+    sample = {"image": image_rgb}
+    processed = transforms(sample) 
     
-    # 4. CHUẨN HÓA IMAGENET (BẮT BUỘC PHẢI CÓ ĐỂ KHỚP VỚI LÚC TRAIN)
-    normalize = T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    img_tensor = normalize(img_tensor)
+    # Tensor cuối cùng đã hoàn hảo 100%
+    img_tensor = processed["img"].unsqueeze(0).to(device)
     
-    img_tensor = img_tensor.unsqueeze(0).to(device)
-    return img_tensor, img_padded
+    # Dùng OpenCV bóp ảnh gốc để lát nữa vẽ khung
+    img_draw = cv2.resize(image, (input_size[0], input_size[1]))
+    
+    return img_tensor, img_draw
 
 def main():
     args = parse_args()
@@ -55,7 +65,7 @@ def main():
     print(f"🚀 Đang khởi động hệ thống suy luận trên: {device}")
 
     # ==========================================
-    # 1. KHỞI TẠO MÔ HÌNH VÀ NẠP TRỌNG SỐ
+    # 1. KHỞI TẠO MÔ HÌNH
     # ==========================================
     model = build_model(cfg['model'])
     checkpoint = torch.load(args.checkpoint, map_location=device)
@@ -63,28 +73,21 @@ def main():
     state_dict = checkpoint.get('state_dict', checkpoint)
     model.load_state_dict(state_dict, strict=True)
     model.to(device)
-    model.eval()
+    model.eval() 
 
-    for m in model.modules():
-        if isinstance(m, torch.nn.modules.batchnorm._BatchNorm):
-            m.train()
-
+    # --- ÉP MÔ HÌNH VƯỢT RÀO NMS BÊN TRONG ---
     try:
-        # Ép mô hình phải nhả ra mọi thứ dù độ tự tin chỉ có 0.1%
-        model.head.test_cfg['score_thr'] = 0.001 
-        print("🔓 Đã bẻ khóa ngưỡng tin cậy ngầm của mô hình xuống 0.001")
+        if hasattr(model, 'head') and hasattr(model.head, 'test_cfg'):
+            model.head.test_cfg['score_thr'] = 0.001
+            model.head.test_cfg['conf_thr'] = 0.001
     except:
         pass
 
     # ==========================================
-    # 2. CHUẨN BỊ DỮ LIỆU
+    # 2. CHUẨN BỊ DỮ LIỆU BẰNG PIPELINE TỰ ĐỘNG
     # ==========================================
     class_names = cfg.get('dataset', {}).get('class_names', ['aedes', 'culex', 'anopheles'])
-    input_size = cfg.get('pipeline', {}).get('input_size', [640, 640])
-    if isinstance(input_size, list):
-        input_size = tuple(input_size)
-
-    img_tensor, img_draw = preprocess_image(args.source, input_size, device)
+    img_tensor, img_draw = preprocess_image_auto(args.source, cfg, device)
 
     print("\n[DEBUG PREDICT] TENSOR ẢNH ĐẦU VÀO:")
     print(f"- Shape: {img_tensor.shape}")
@@ -92,7 +95,7 @@ def main():
     print(f"- Max value: {img_tensor.max().item():.4f}\n")
 
     # ==========================================
-    # 3. TIẾN HÀNH SUY LUẬN & GIẢI MÃ
+    # 3. TIẾN HÀNH SUY LUẬN
     # ==========================================
     print("🧠 Trí tuệ nhân tạo đang phân tích ảnh...")
     with torch.no_grad():
@@ -104,24 +107,20 @@ def main():
     all_class_ids = predictions.get('labels', torch.tensor([]))
     all_masks = predictions.get('masks', torch.tensor([]))
 
-    # --- ĐOẠN DEBUG QUAN TRỌNG NHẤT ---
     if len(all_scores) > 0:
-        print(f"🧐 [SOI ĐIỂM SỐ]: Điểm tự tin CAO NHẤT AI dự đoán là {all_scores.max().item():.4f} (Ngưỡng yêu cầu: {args.conf_thresh})")
+        print(f"🧐 [SOI ĐIỂM SỐ]: Điểm tự tin CAO NHẤT AI dự đoán là {all_scores.max().item():.4f}")
     else:
         print("🧐 [SOI ĐIỂM SỐ]: AI xuất ra 0 dự đoán (Tức là mù hoàn toàn).")
 
-    # BƯỚC BẢO VỆ 1
     if len(all_boxes) == 0:
         print("🤷‍♂️ AI không tìm thấy đối tượng nào trên ảnh.")
         return
 
-    # Lọc thủ công
     keep_idx = all_scores >= args.conf_thresh
     boxes = all_boxes[keep_idx]
     scores = all_scores[keep_idx]
     class_ids = all_class_ids[keep_idx]
 
-    # BƯỚC BẢO VỆ 2
     if len(all_masks) == len(all_boxes):
         masks = all_masks[keep_idx]
     else:
