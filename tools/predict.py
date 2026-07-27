@@ -138,7 +138,7 @@ def main():
     visualizer = SegVisualizer(class_names=class_names)
     result_img = visualizer.draw(
         image=img_draw, 
-        boxes=boxes, 
+        bboxes=boxes, 
         masks=masks, 
         classes=class_ids, 
         scores=scores
