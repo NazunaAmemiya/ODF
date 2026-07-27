@@ -1,4 +1,4 @@
-﻿"""Model builders."""
+"""Model builders."""
 
 from __future__ import annotations
 

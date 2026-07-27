@@ -136,12 +136,17 @@ def main():
     # 4. VẼ KHUNG & MẶT NẠ
     # ==========================================
     visualizer = SegVisualizer(class_names=class_names)
+
+    pred_dict = {
+        "boxes":boxes, 
+        "masks":masks, 
+        "classes":class_ids, 
+        "scores":scores
+    }
     result_img = visualizer.draw(
         image=img_draw, 
-        bboxes=boxes, 
-        masks=masks, 
-        classes=class_ids, 
-        scores=scores
+        prediction=pred_dict,
+        score_thr=0.25
     )
 
     cv2.imwrite(args.out, result_img)
