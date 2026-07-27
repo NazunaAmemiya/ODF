@@ -2,6 +2,7 @@
 epochs: 100
 device: "cuda:0"            # Chạy trên GPU số 0 (hoặc đổi thành "cpu" nếu không có GPU)
 work_dir: "./work_dirs"     # Nơi lưu logs và file trọng số (.pt)
+validate: True
 
 early_stopping:
   enabled: True

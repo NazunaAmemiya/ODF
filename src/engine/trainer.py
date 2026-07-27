@@ -122,3 +122,17 @@ class Trainer:
         avg_loss = total_loss / max(len(self.train_loader), 1)
         self.logger.info("Epoch %s finished | avg_loss %.4f", epoch, avg_loss)
         return {"loss": avg_loss}
+
+    @torch.no_grad()
+    def validate(self) -> float:
+        self.model.eval() # Chuyển mô hình sang chế độ đánh giá (tắt Dropout, v.v.)
+        total_loss = 0.0
+        for batch in self.val_loader:
+            images = batch["img"].to(self.device, non_blocking=True)
+            targets = {k: v.to(self.device, non_blocking=True) for k, v in batch.items() if k != "img"}
+            
+            loss = self.model(images, targets)
+            total_loss += float(loss.detach().item())
+            
+        avg_loss = total_loss / max(len(self.val_loader), 1)
+        return avg_loss

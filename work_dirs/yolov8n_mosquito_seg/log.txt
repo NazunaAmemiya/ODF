@@ -1133,3 +1133,21 @@
 2026-07-27 12:57:21 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 149 | Train Loss: 0.0305 | Val Loss: 1.0462
 2026-07-27 12:57:23 | INFO | mosquito_cv | Epoch [150/150] - Train Batch [0/7] - Loss: 0.0246
 2026-07-27 12:57:28 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 150 | Train Loss: 0.0304 | Val Loss: 1.0410
+2026-07-27 12:57:46 | INFO | mosquito_cv | Đọc cấu hình thành công từ: ./configs/yolo/yolov8n_seg_mosquito.yaml
+2026-07-27 12:57:46 | INFO | mosquito_cv | Đang chạy trên thiết bị: cuda:0
+2026-07-27 12:57:46 | INFO | mosquito_cv | Khởi tạo Data Pipeline...
+2026-07-27 12:57:46 | INFO | mosquito_cv | Lắp ráp Mô hình thông qua Registry...
+2026-07-27 12:57:47 | INFO | mosquito_cv | 🔥🔥🔥 BẮT ĐẦU HUẤN LUYỆN 150 EPOCHS (CÓ VALIDATION) 🔥🔥🔥
+2026-07-27 12:57:50 | INFO | mosquito_cv | Epoch [1/150] - Train Batch [0/7] - Loss: 2.7833
+2026-07-27 12:57:56 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 1 | Train Loss: 2.5399 | Val Loss: 2.5754
+2026-07-27 12:57:56 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 2.5754)
+2026-07-27 12:57:59 | INFO | mosquito_cv | Epoch [2/150] - Train Batch [0/7] - Loss: 2.1498
+2026-07-27 12:58:04 | INFO | mosquito_cv | 👉 KẾT THÚC EPOCH 2 | Train Loss: 1.9949 | Val Loss: 2.3298
+2026-07-27 12:58:04 | INFO | mosquito_cv | 🌟 ĐÃ LƯU MÔ HÌNH TỐT NHẤT MỚI! (Kỷ lục Val Loss: 2.3298)
+2026-07-27 12:58:06 | INFO | mosquito_cv | Epoch [3/150] - Train Batch [0/7] - Loss: 1.8414
+2026-07-27 12:59:12 | INFO | mosquito_cv | Đọc cấu hình thành công từ: ./configs/yolo/yolov8n_seg_mosquito.yaml
+2026-07-27 12:59:12 | INFO | mosquito_cv | Đang chạy trên thiết bị: cuda:0
+2026-07-27 12:59:12 | INFO | mosquito_cv | Khởi tạo Data Pipeline...
+2026-07-27 12:59:12 | INFO | mosquito_cv | Lắp ráp Mô hình thông qua Registry...
+2026-07-27 12:59:13 | INFO | mosquito_cv | 🔥🔥🔥 BẮT ĐẦU HUẤN LUYỆN 150 EPOCHS (CÓ VALIDATION) 🔥🔥🔥
+2026-07-27 12:59:17 | INFO | mosquito_cv | Epoch [1/150] - Train Batch [0/7] - Loss: 2.8796
