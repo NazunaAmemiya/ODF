@@ -16,13 +16,15 @@ dataset:
 pipeline:
   input_size: [640, 640]
   transforms:
-    - type: "Resize"          # Hàm Resize sẽ tự động ép tọa độ ảnh, mask và box về tỷ lệ đúng
-    - type: "RandomHorizontalFlip"
+    - type: RandomHorizontalFlip
       prob: 0.5
-    - type: "ColorJitter"
+    - type: RandomVerticalFlip # Đã kích hoạt biến đổi mới
+      prob: 0.5
+    - type: ColorJitter
+      prob: 0.8
       brightness: 0.2
       contrast: 0.2
-    - type: "Normalize"       # Bạn cần truyền mean/std vào để quá trình hội tụ không bị hỏng ngầm
-      mean: [0.485, 0.456, 0.406]
-      std: [0.229, 0.224, 0.225]
-    - type: "FormatSample"    # Phải có format cuối cùng này để biến list tọa độ thành Tensor hợp lệ
+    - type: Cutout # Đã kích hoạt biến đổi mới
+      prob: 0.5
+      max_holes: 6
+      max_size: 40
