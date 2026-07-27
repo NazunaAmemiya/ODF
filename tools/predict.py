@@ -24,13 +24,15 @@ def load_config(config_path):
     with open(config_path, 'r', encoding='utf-8') as f:
         return yaml.safe_load(f)
 
+import torchvision.transforms as T
+
 def preprocess_image(image_path, input_size, device):
     """Tiền xử lý khớp 100% với Dataloader lúc huấn luyện"""
     img_bgr = cv2.imread(image_path)
     if img_bgr is None:
         raise ValueError(f"❌ Không thể đọc ảnh: {image_path}")
     
-    # 1. Resize ép buộc (Bóp méo ảnh)
+    # 1. Resize ép buộc
     img_padded = cv2.resize(img_bgr, (input_size[0], input_size[1]), interpolation=cv2.INTER_LINEAR)
     
     # 2. Chuyển BGR sang RGB
@@ -38,6 +40,11 @@ def preprocess_image(image_path, input_size, device):
     
     # 3. Chuyển thành Tensor và chia 255.0
     img_tensor = torch.from_numpy(img_rgb).permute(2, 0, 1).float() / 255.0
+    
+    # 4. CHUẨN HÓA IMAGENET (BẮT BUỘC PHẢI CÓ ĐỂ KHỚP VỚI LÚC TRAIN)
+    normalize = T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
+    img_tensor = normalize(img_tensor)
+    
     img_tensor = img_tensor.unsqueeze(0).to(device)
     return img_tensor, img_padded
 
@@ -57,6 +64,10 @@ def main():
     model.load_state_dict(state_dict, strict=True)
     model.to(device)
     model.eval()
+
+    for m in model.modules():
+        if isinstance(m, torch.nn.modules.batchnorm._BatchNorm):
+            m.train()
 
     try:
         # Ép mô hình phải nhả ra mọi thứ dù độ tự tin chỉ có 0.1%
