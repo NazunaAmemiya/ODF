@@ -1,4 +1,4 @@
-﻿"""Data augmentation primitives for image, box, and mask samples."""
+"""Data augmentation primitives for image, box, and mask samples."""
 
 from __future__ import annotations
 
@@ -160,4 +160,61 @@ class MixUp:
         self.kwargs = kwargs
 
     def __call__(self, sample: Sample) -> Sample:
+        return sample
+
+@TRANSFORMS.register_module()
+class RandomVerticalFlip:
+    """Lật dọc ảnh ngẫu nhiên để tăng tính đa dạng."""
+    def __init__(self, prob: float = 0.5) -> None:
+        self.prob = float(prob)
+
+    def __call__(self, sample: Sample) -> Sample:
+        if random.random() >= self.prob:
+            return sample
+
+        image = np.ascontiguousarray(sample["image"][::-1, :, :])
+        height = image.shape[0]
+        sample["image"] = image
+
+        boxes = sample.get("boxes")
+        if boxes is not None and len(boxes):
+            boxes = np.asarray(boxes, dtype=np.float32).copy()
+            y1 = boxes[:, 1].copy()
+            y2 = boxes[:, 3].copy()
+            boxes[:, 1] = height - y2
+            boxes[:, 3] = height - y1
+            sample["boxes"] = boxes
+
+        masks = sample.get("masks")
+        if masks is not None and len(masks):
+            sample["masks"] = np.ascontiguousarray(masks[:, ::-1, :])
+            
+        return sample
+
+@TRANSFORMS.register_module()
+class Cutout:
+    """Tạo các ô vuông xám ngẫu nhiên che khuất ảnh để mô hình không phụ thuộc vào 1 điểm đặc trưng."""
+    def __init__(self, prob: float = 0.5, max_holes: int = 4, max_size: int = 40):
+        self.prob = prob
+        self.max_holes = max_holes
+        self.max_size = max_size
+
+    def __call__(self, sample: Sample) -> Sample:
+        if random.random() >= self.prob:
+            return sample
+            
+        image = sample["image"].copy()
+        h, w = image.shape[:2]
+        
+        for _ in range(random.randint(1, self.max_holes)):
+            y = random.randint(0, h)
+            x = random.randint(0, w)
+            y1 = np.clip(y - self.max_size // 2, 0, h)
+            y2 = np.clip(y + self.max_size // 2, 0, h)
+            x1 = np.clip(x - self.max_size // 2, 0, w)
+            x2 = np.clip(x + self.max_size // 2, 0, w)
+            # Bôi xám vùng ảnh
+            image[y1:y2, x1:x2] = (114, 114, 114) 
+            
+        sample["image"] = image
         return sample
