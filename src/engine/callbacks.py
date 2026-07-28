@@ -78,24 +78,33 @@ class CheckpointHook(Callback):
 class EarlyStopping(Callback):
     """Stop training when a monitored metric stops improving."""
 
-    def __init__(self, monitor: str = "loss", patience: int = 20, mode: str = "min") -> None:
+    def __init__(self, monitor: str = "loss", patience: int = 20, mode: str = "min", min_delta: float = 0.005) -> None:
         self.monitor = monitor
         self.patience = int(patience)
         self.mode = mode
+        self.min_delta = min_delta # Thêm ngưỡng tối thiểu
         self.best_value: Optional[float] = None
         self.bad_epochs = 0
 
     def on_epoch_end(self, trainer: Any, epoch: int, metrics: Dict[str, float]) -> None:
         if self.monitor not in metrics:
             return
+            
         value = float(metrics[self.monitor])
         better = self.best_value is None
+        
         if not better:
-            better = value < self.best_value if self.mode == "min" else value > self.best_value
+            # Ép mô hình phải giảm Loss sâu hơn mức min_delta thì mới được tính là tốt hơn
+            if self.mode == "min":
+                better = value < (self.best_value - self.min_delta)
+            else:
+                better = value > (self.best_value + self.min_delta)
+                
         if better:
             self.best_value = value
             self.bad_epochs = 0
         else:
             self.bad_epochs += 1
+            
         if self.bad_epochs >= self.patience:
             trainer.should_stop = True
